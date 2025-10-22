@@ -1,14 +1,13 @@
 import { addDays } from "date-fns";
-import Menu from "./Menu";
+import DayMenu from "./DayMenu";
 export type Weekday = "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday";
-export type DayMenu = { weekday: Weekday; menu: Menu; day: Date };
 
 export class WeekMenu {
 	id: string;
 	date: Date;
-	menus: Record<Weekday, Menu>;
+	menus: Record<Weekday, DayMenu>;
 
-	getMenuPerDays(): DayMenu[] {
+	getMenuPerDays(): { weekday: Weekday; menu: DayMenu; day: Date }[] {
 		return Object.entries(this.menus).map(
 			([weekday, menu], index) => ({ weekday: weekday as Weekday, menu, day: addDays(this.date, index) })
 		);

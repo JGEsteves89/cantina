@@ -3,7 +3,7 @@ import Salad from "./dishes/Salad";
 import Side from "./dishes/Side";
 import Soup from "./dishes/Soup";
 
-export default interface Menu {
+export default interface DayMenu {
 	id: string,
 	soup: Soup,
 	main: Main,
