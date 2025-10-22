@@ -1,28 +1,28 @@
 import { DishCategory } from "../models/Dish";
-import { Soup } from "../models/dishes/Soup";
-import { Main } from "../models/dishes/Main";
-import { Side } from "../models/dishes/Side";
-import { Salad } from "../models/dishes/Salad";
-import { WeekMenu } from "../models/WeekMenu";
+import { Weekday, WeekMenu } from "../models/WeekMenu";
 import { DishController } from './DishController';
+import { DayMenu } from "../models/DayMenu";
 
 export class WeekMenuController {
-	
+
 	static getCurrent(): WeekMenu {
-		// please remove me
+		// TODO: please remove me
 		const dishes = DishController.getAll();
-		const getDish = (category: DishCategory) => dishes.find(d => d.category === category);
+		const soupExample = dishes.find(d => d.category === DishCategory.Soup);
+		const mainExample = dishes.find(d => d.category === DishCategory.Main);
+		const sideExample = dishes.find(d => d.category === DishCategory.Side);
+		const saladExample = dishes.find(d => d.category === DishCategory.Salad);
 		return {
 			id: "1",
 			date: new Date(),
 			menus: {
-				monday: 	{ id: "m1", soup: getDish(DishCategory.Soup) as Soup, main: getDish(DishCategory.Main) as Main, side: getDish(DishCategory.Side) as Side, salad: getDish(DishCategory.Salad) as Salad },
-				tuesday: 	{ id: "m2", soup: getDish(DishCategory.Soup) as Soup, main: getDish(DishCategory.Main) as Main, side: getDish(DishCategory.Side) as Side, salad: getDish(DishCategory.Salad) as Salad },
-				wednesday: 	{ id: "m3", soup: getDish(DishCategory.Soup) as Soup, main: getDish(DishCategory.Main) as Main, side: getDish(DishCategory.Side) as Side, salad: getDish(DishCategory.Salad) as Salad },
-				thursday: 	{ id: "m4", soup: getDish(DishCategory.Soup) as Soup, main: getDish(DishCategory.Main) as Main, side: getDish(DishCategory.Side) as Side, salad: getDish(DishCategory.Salad) as Salad },
-				friday: 	{ id: "m5", soup: getDish(DishCategory.Soup) as Soup, main: getDish(DishCategory.Main) as Main, side: getDish(DishCategory.Side) as Side, salad: getDish(DishCategory.Salad) as Salad },
-				saturday: 	{ id: "m6", soup: getDish(DishCategory.Soup) as Soup, main: getDish(DishCategory.Main) as Main, side: getDish(DishCategory.Side) as Side, salad: getDish(DishCategory.Salad) as Salad },
-				sunday: 	{ id: "m7", soup: getDish(DishCategory.Soup) as Soup, main: getDish(DishCategory.Main) as Main, side: getDish(DishCategory.Side) as Side, salad: getDish(DishCategory.Salad) as Salad },
+				monday: new DayMenu('m1', Weekday.Monday, { soup: soupExample, main: mainExample, side: sideExample, salad: saladExample }),
+				tuesday: new DayMenu('m1', Weekday.Tuesday, { soup: soupExample, main: mainExample, side: sideExample, salad: saladExample }),
+				wednesday: new DayMenu('m1', Weekday.Wednesday, {}),
+				thursday: new DayMenu('m1', Weekday.Thursday, { soup: soupExample, main: mainExample, }),
+				friday: new DayMenu('m1', Weekday.Friday, { side: sideExample, salad: saladExample }),
+				saturday: new DayMenu('m1', Weekday.Saturday, { soup: soupExample, main: mainExample, side: sideExample, salad: saladExample }),
+				sunday: new DayMenu('m1', Weekday.Sunday, { soup: soupExample, salad: saladExample }),
 			},
 		} as WeekMenu;
 	}

@@ -1,7 +1,14 @@
 import { addDays } from "date-fns";
 import { DayMenu } from "./DayMenu";
-export type Weekday = "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday";
-
+export enum Weekday {
+	Monday = "monday",
+	Tuesday = "tuesday",
+	Wednesday = "wednesday",
+	Thursday = "thursday",
+	Friday = "friday",
+	Saturday = "saturday",
+	Sunday = "sunday",
+}
 export class WeekMenu {
 	id: string;
 	date: Date;

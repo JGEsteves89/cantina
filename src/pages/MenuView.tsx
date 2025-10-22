@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Navigation from "@/components/Navigation";
 import { Badge } from "@/components/ui/badge";
-import { Dish, DishCategory, DishIcon, DishController, DayMenu } from "@/api";
+import { Dish, DishCategory, DishIcon, DishController, DayMenu, WeekMenu, WeekMenuController, Weekday } from "@/api";
 
 
 const MenuView = () => {
@@ -15,37 +15,38 @@ const MenuView = () => {
   // Mock data for the week
   const [weekMenu, setWeekMenu] = useState<DayMenu[]>([
     {
-      id: "monday",
-      weekDay: "monday",
+      id: Weekday.Monday,
+      weekDay: Weekday.Monday,
       soup: { id: "1", name: "Tomato Basil Soup", category: "soup" } as Dish,
       main: { id: "2", name: "Grilled Chicken", category: "main" } as Dish,
       side: { id: "3", name: "Roasted Vegetables", category: "side" } as Dish,
       salad: { id: "4", name: "Caesar Salad", category: "salad" } as Dish,
     },
     {
-      id: "tuesday",
-      weekDay: "tuesday",
+      id: Weekday.Tuesday,
+      weekDay: Weekday.Tuesday,
       soup: { id: "5", name: "Mushroom Soup", category: "soup" } as Dish,
       main: { id: "6", name: "Beef Stir Fry", category: "main" } as Dish,
       side: { id: "7", name: "Jasmine Rice", category: "side" } as Dish,
     },
     {
-      id: "wednesday",
-      weekDay: "wednesday",
+      id: Weekday.Wednesday,
+      weekDay: Weekday.Wednesday,
     },
     {
-      id: "thursday",
-      weekDay: "thursday",
+      id:  Weekday.Thursday,
+      weekDay:  Weekday.Thursday,
     },
     {
-      id: "friday",
-      weekDay: "friday",
+      id:  Weekday.Friday,
+      weekDay:  Weekday.Friday,
     },
   ]);
 
   // Mock dishes pool
   const dishesPool: Dish[] = DishController.getAll();
-  console.log(dishesPool);
+  const test: WeekMenu = WeekMenuController.getCurrent();
+  console.log(test);
 
   const categoryColors = {
     soup: "bg-orange-100 text-orange-800 border-orange-200",
