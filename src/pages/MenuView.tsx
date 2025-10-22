@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Navigation from "@/components/Navigation";
 import { Badge } from "@/components/ui/badge";
-import { Dish, DishController } from "@/api";
+import { Dish, DishCategory, DishIcon, DishController } from "@/api";
 
 
 interface DayMenu {
@@ -62,12 +62,12 @@ const MenuView = () => {
     salad: "bg-green-100 text-green-800 border-green-200",
   };
 
-  const categoryLabels = {
-    soup: "🍲 Soup",
-    main: "🍖 Main",
-    side: "🥔 Side",
-    salad: "🥗 Salad",
-  };
+  const categoryLabels = Object.values(DishCategory).reduce((acc, category) => {
+    const icon = DishIcon[category as DishCategory]; // type-safe access
+    const formatted = category.charAt(0).toUpperCase() + category.slice(1);
+    acc[category] = `${icon} ${formatted}`;
+    return acc;
+  }, {} as Record<DishCategory, string>);
 
   const handleAddDish = (dayDate: string, category: string) => {
     setSelectedDay(dayDate);

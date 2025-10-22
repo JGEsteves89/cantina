@@ -1,5 +1,5 @@
 import { Dish, DishCategory, DishIcon } from "./models/Dish";
-export { Dish, DishCategory, type DishIcon };
+export { Dish, DishCategory, DishIcon };
 
 export type { default as Main } from "./models/dishes/Main";
 export type { default as Salad } from "./models/dishes/Salad";
