@@ -1,5 +1,5 @@
 import { addDays } from "date-fns";
-import DayMenu from "./DayMenu";
+import { DayMenu } from "./DayMenu";
 export type Weekday = "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday";
 
 export class WeekMenu {

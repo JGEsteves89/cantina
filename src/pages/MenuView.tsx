@@ -5,55 +5,47 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Navigation from "@/components/Navigation";
 import { Badge } from "@/components/ui/badge";
-import { Dish, DishCategory, DishIcon, DishController } from "@/api";
+import { Dish, DishCategory, DishIcon, DishController, DayMenu } from "@/api";
 
-
-interface DayMenu {
-  date: string;
-  day: string;
-  soup?: Dish;
-  main?: Dish;
-  side?: Dish;
-  salad?: Dish;
-}
 
 const MenuView = () => {
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [selectedWeekDay, setSelectedWeekDay] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   // Mock data for the week
   const [weekMenu, setWeekMenu] = useState<DayMenu[]>([
     {
-      date: "2025-10-20",
-      day: "Monday",
+      id: "monday",
+      weekDay: "monday",
       soup: { id: "1", name: "Tomato Basil Soup", category: "soup" } as Dish,
       main: { id: "2", name: "Grilled Chicken", category: "main" } as Dish,
       side: { id: "3", name: "Roasted Vegetables", category: "side" } as Dish,
       salad: { id: "4", name: "Caesar Salad", category: "salad" } as Dish,
     },
     {
-      date: "2025-10-21",
-      day: "Tuesday",
+      id: "tuesday",
+      weekDay: "tuesday",
       soup: { id: "5", name: "Mushroom Soup", category: "soup" } as Dish,
       main: { id: "6", name: "Beef Stir Fry", category: "main" } as Dish,
       side: { id: "7", name: "Jasmine Rice", category: "side" } as Dish,
     },
     {
-      date: "2025-10-22",
-      day: "Wednesday",
+      id: "wednesday",
+      weekDay: "wednesday",
     },
     {
-      date: "2025-10-23",
-      day: "Thursday",
+      id: "thursday",
+      weekDay: "thursday",
     },
     {
-      date: "2025-10-24",
-      day: "Friday",
+      id: "friday",
+      weekDay: "friday",
     },
   ]);
 
   // Mock dishes pool
   const dishesPool: Dish[] = DishController.getAll();
+  console.log(dishesPool);
 
   const categoryColors = {
     soup: "bg-orange-100 text-orange-800 border-orange-200",
@@ -69,29 +61,29 @@ const MenuView = () => {
     return acc;
   }, {} as Record<DishCategory, string>);
 
-  const handleAddDish = (dayDate: string, category: string) => {
-    setSelectedDay(dayDate);
+  const handleAddDish = (weekDay: string, category: string) => {
+    setSelectedWeekDay(weekDay);
     setSelectedCategory(category);
   };
 
   const handleSelectDish = (dish: Dish) => {
-    if (!selectedDay || !selectedCategory) return;
+    if (!selectedWeekDay || !selectedCategory) return;
 
     setWeekMenu((prev) =>
       prev.map((day) =>
-        day.date === selectedDay
+        day.weekDay === selectedWeekDay
           ? { ...day, [selectedCategory]: dish }
           : day
       )
     );
-    setSelectedDay(null);
+    setSelectedWeekDay(null);
     setSelectedCategory(null);
   };
 
   const handleRemoveDish = (dayDate: string, category: string) => {
     setWeekMenu((prev) =>
       prev.map((day) =>
-        day.date === dayDate ? { ...day, [category]: undefined } : day
+        day.weekDay === dayDate ? { ...day, [category]: undefined } : day
       )
     );
   };
@@ -108,12 +100,13 @@ const MenuView = () => {
 
         <div className="grid gap-6">
           {weekMenu.map((day) => (
-            <Card key={day.date} className="overflow-hidden hover:shadow-lg transition-all">
+            <Card key={day.weekDay} className="overflow-hidden hover:shadow-lg transition-all">
               <CardHeader className="bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border">
                 <CardTitle className="flex items-center justify-between">
                   <div>
-                    <span className="text-2xl font-bold text-foreground">{day.day}</span>
-                    <span className="text-sm text-muted-foreground ml-3">{day.date}</span>
+                    <span className="text-2xl font-bold text-foreground">{day.weekDay}</span>
+                    {/* TODO: Either remove me or change with something else */}
+                    <span className="text-sm text-muted-foreground ml-3">{day.weekDay}</span> 
                   </div>
                 </CardTitle>
               </CardHeader>
@@ -133,7 +126,7 @@ const MenuView = () => {
                             variant="ghost"
                             size="icon"
                             className="h-6 w-6 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            onClick={() => handleRemoveDish(day.date, category)}
+                            onClick={() => handleRemoveDish(day.weekDay, category)}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -145,7 +138,7 @@ const MenuView = () => {
                         <Button
                           variant="outline"
                           className="w-full border-dashed hover:bg-primary/5 hover:border-primary"
-                          onClick={() => handleAddDish(day.date, category)}
+                          onClick={() => handleAddDish(day.weekDay, category)}
                         >
                           <Plus className="h-4 w-4 mr-2" />
                           Add Dish
@@ -160,7 +153,7 @@ const MenuView = () => {
         </div>
       </main>
 
-      <Dialog open={!!selectedDay} onOpenChange={() => setSelectedDay(null)}>
+      <Dialog open={!!selectedWeekDay} onOpenChange={() => setSelectedWeekDay(null)}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>

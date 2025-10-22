@@ -1,12 +1,12 @@
 import { DishCategory } from "../models/Dish";
-import Soup from "../models/dishes/Soup";
-import Main from "../models/dishes/Main";
-import Side from "../models/dishes/Side";
-import Salad from "../models/dishes/Salad";
+import { Soup } from "../models/dishes/Soup";
+import { Main } from "../models/dishes/Main";
+import { Side } from "../models/dishes/Side";
+import { Salad } from "../models/dishes/Salad";
 import { WeekMenu } from "../models/WeekMenu";
-import DishController from './DishController';
+import { DishController } from './DishController';
 
-export default class WeekMenuController {
+export class WeekMenuController {
 	
 	static getCurrent(): WeekMenu {
 		// please remove me

@@ -1,12 +1,14 @@
-import Main from "./dishes/Main";
-import Salad from "./dishes/Salad";
-import Side from "./dishes/Side";
-import Soup from "./dishes/Soup";
+import { Main } from "./dishes/Main";
+import { Salad } from "./dishes/Salad";
+import { Side } from "./dishes/Side";
+import { Soup } from "./dishes/Soup";
+import { Weekday } from "./WeekMenu";
 
-export default interface DayMenu {
+export interface DayMenu {
 	id: string,
-	soup: Soup,
-	main: Main,
+	weekDay: Weekday,
+	soup?: Soup,
+	main?: Main,
 	side?: Side,
 	salad?: Salad
 }
