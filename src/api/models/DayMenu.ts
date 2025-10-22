@@ -6,14 +6,14 @@ import { Weekday } from "./WeekMenu";
 
 export class DayMenu {
 	id: string;
-	weekDay: Weekday;
+	weekday: Weekday;
 	soup?: Soup;
 	main?: Main;
 	side?: Side;
 	salad?: Salad;
 	constructor(id: string, weekday: Weekday, data: { soup?: Soup, main?: Main, side?: Side, salad?: Salad }) {
 		this.id = id;
-		this.weekDay = weekday;
+		this.weekday = weekday;
 		this.soup = data.soup;
 		this.main = data.main;
 		this.side = data.side;
