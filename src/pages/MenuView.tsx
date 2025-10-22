@@ -5,20 +5,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Navigation from "@/components/Navigation";
 import { Badge } from "@/components/ui/badge";
+import { Dish, DishController } from "@/api";
 
-interface DishItem {
-  id: string;
-  name: string;
-  category: "soup" | "main" | "side" | "salad";
-}
 
 interface DayMenu {
   date: string;
   day: string;
-  soup?: DishItem;
-  main?: DishItem;
-  side?: DishItem;
-  salad?: DishItem;
+  soup?: Dish;
+  main?: Dish;
+  side?: Dish;
+  salad?: Dish;
 }
 
 const MenuView = () => {
@@ -30,17 +26,17 @@ const MenuView = () => {
     {
       date: "2025-10-20",
       day: "Monday",
-      soup: { id: "1", name: "Tomato Basil Soup", category: "soup" },
-      main: { id: "2", name: "Grilled Chicken", category: "main" },
-      side: { id: "3", name: "Roasted Vegetables", category: "side" },
-      salad: { id: "4", name: "Caesar Salad", category: "salad" },
+      soup: { id: "1", name: "Tomato Basil Soup", category: "soup" } as Dish,
+      main: { id: "2", name: "Grilled Chicken", category: "main" } as Dish,
+      side: { id: "3", name: "Roasted Vegetables", category: "side" } as Dish,
+      salad: { id: "4", name: "Caesar Salad", category: "salad" } as Dish,
     },
     {
       date: "2025-10-21",
       day: "Tuesday",
-      soup: { id: "5", name: "Mushroom Soup", category: "soup" },
-      main: { id: "6", name: "Beef Stir Fry", category: "main" },
-      side: { id: "7", name: "Jasmine Rice", category: "side" },
+      soup: { id: "5", name: "Mushroom Soup", category: "soup" } as Dish,
+      main: { id: "6", name: "Beef Stir Fry", category: "main" } as Dish,
+      side: { id: "7", name: "Jasmine Rice", category: "side" } as Dish,
     },
     {
       date: "2025-10-22",
@@ -57,16 +53,7 @@ const MenuView = () => {
   ]);
 
   // Mock dishes pool
-  const dishesPool: DishItem[] = [
-    { id: "8", name: "Lentil Soup", category: "soup" },
-    { id: "9", name: "French Onion Soup", category: "soup" },
-    { id: "10", name: "Salmon Fillet", category: "main" },
-    { id: "11", name: "Vegetable Curry", category: "main" },
-    { id: "12", name: "Mashed Potatoes", category: "side" },
-    { id: "13", name: "Steamed Broccoli", category: "side" },
-    { id: "14", name: "Greek Salad", category: "salad" },
-    { id: "15", name: "Garden Salad", category: "salad" },
-  ];
+  const dishesPool: Dish[] = DishController.getAll();
 
   const categoryColors = {
     soup: "bg-orange-100 text-orange-800 border-orange-200",
@@ -87,7 +74,7 @@ const MenuView = () => {
     setSelectedCategory(category);
   };
 
-  const handleSelectDish = (dish: DishItem) => {
+  const handleSelectDish = (dish: Dish) => {
     if (!selectedDay || !selectedCategory) return;
 
     setWeekMenu((prev) =>
