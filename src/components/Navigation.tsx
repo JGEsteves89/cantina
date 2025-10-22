@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Calendar, Utensils, ChefHat } from "lucide-react";
+import { Calendar, Utensils, CookingPot } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Navigation = () => {
@@ -16,9 +16,9 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
             <div className="bg-gradient-to-br from-primary to-accent rounded-lg p-2">
-              <ChefHat className="h-6 w-6 text-primary-foreground" />
+              <CookingPot className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">MenuMaster</span>
+            <span className="text-xl font-bold text-foreground">Cantina</span>
           </div>
 
           <div className="flex gap-1">
