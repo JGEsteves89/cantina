@@ -1,6 +1,6 @@
 import { Dish, DishCategory } from '../Dish';
 export class Salad extends Dish {
-	constructor(data: Dish) {
-		super(DishCategory.Salad, data);
+	constructor(id: string, name: string) {
+		super(id, name, DishCategory.Salad);
 	}
 }

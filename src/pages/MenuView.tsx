@@ -5,20 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Navigation from "@/components/Navigation";
 import { Badge } from "@/components/ui/badge";
-import { Dish, DishCategory, DishIcon, DishController, DayMenu, WeekMenu, WeekMenuController, Weekday } from "@/api";
-
-// Mock data for the week
-const currentWeekMenu = WeekMenuController.getCurrent();
-// Mock dishes pool
-const dishesPool = DishController.getAll();
+import { Dish, DishCategory, DishIcon, DayMenu, WeekMenu, Weekday } from "@/api";
+import { useAppStore } from "@/store/appStore";
 
 const MenuView = () => {
-	console.log(currentWeekMenu)
+  const { dishes, currentWeek, setDishInDay, removeDishInDay} = useAppStore();
+
   const [selectedWeekDay, setSelectedWeekDay] = useState<Weekday | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
-  // Mock data for the week
-  const [weekMenu, setWeekMenu] = useState<WeekMenu>(currentWeekMenu);
 
   const categoryColors = {
     soup: "bg-orange-100 text-orange-800 border-orange-200",
@@ -41,14 +35,13 @@ const MenuView = () => {
 
   const handleSelectDish = (dish: Dish) => {
     if (!selectedWeekDay || !selectedCategory) return;
-
-    setWeekMenu((prev) => prev.updateDishInDay(selectedWeekDay, dish) );
+	setDishInDay(selectedWeekDay, dish);
     setSelectedWeekDay(null);
     setSelectedCategory(null);
   };
 
   const handleRemoveDish = (weekday: Weekday, category: DishCategory) => {
-    setWeekMenu((prev) => prev.removeDishInDay(weekday, category) );
+	removeDishInDay(weekday, category);
   };
 
   return (
@@ -62,7 +55,7 @@ const MenuView = () => {
         </div>
 
         <div className="grid gap-6">
-          {Object.values(Weekday).map(weekday => weekMenu.menus[weekday]).map((dayMenu) => (
+          {Object.values(Weekday).map(weekday => currentWeek.menus[weekday]).map((dayMenu) => (
             <Card key={dayMenu.weekday} className="overflow-hidden hover:shadow-lg transition-all">
               <CardHeader className="bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border">
                 <CardTitle className="flex items-center justify-between">
@@ -124,7 +117,7 @@ const MenuView = () => {
             </DialogTitle>
           </DialogHeader>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto">
-            {dishesPool
+            {dishes
               .filter((dish) => dish.category === selectedCategory)
               .map((dish) => (
                 <Button

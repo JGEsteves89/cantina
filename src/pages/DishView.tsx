@@ -9,35 +9,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Navigation from "@/components/Navigation";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
+import { Dish, DishCategory } from "@/api";
+import {useAppStore} from '@/store/appStore'
 
-interface Dish {
-  id: string;
-  name: string;
-  category: "soup" | "main" | "side" | "salad";
-}
-
+// Mock dishes pool
 const DishView = () => {
-  const [dishes, setDishes] = useState<Dish[]>([
-    { id: "1", name: "Tomato Basil Soup", category: "soup" },
-    { id: "2", name: "Grilled Chicken", category: "main" },
-    { id: "3", name: "Roasted Vegetables", category: "side" },
-    { id: "4", name: "Caesar Salad", category: "salad" },
-    { id: "5", name: "Mushroom Soup", category: "soup" },
-    { id: "6", name: "Beef Stir Fry", category: "main" },
-    { id: "7", name: "Jasmine Rice", category: "side" },
-    { id: "8", name: "Lentil Soup", category: "soup" },
-    { id: "9", name: "French Onion Soup", category: "soup" },
-    { id: "10", name: "Salmon Fillet", category: "main" },
-    { id: "11", name: "Vegetable Curry", category: "main" },
-    { id: "12", name: "Mashed Potatoes", category: "side" },
-    { id: "13", name: "Steamed Broccoli", category: "side" },
-    { id: "14", name: "Greek Salad", category: "salad" },
-    { id: "15", name: "Garden Salad", category: "salad" },
-  ]);
+  const { dishes, addDish, updateDish, deleteDish } = useAppStore();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingDish, setEditingDish] = useState<Dish | null>(null);
-  const [formData, setFormData] = useState({ name: "", category: "" });
+  const [formData, setFormData] = useState<{ name: string, category: DishCategory } | null>(null);
 
   const categoryColors = {
     soup: "bg-orange-100 text-orange-800 border-orange-200",
@@ -66,42 +47,36 @@ const DishView = () => {
       setFormData({ name: dish.name, category: dish.category });
     } else {
       setEditingDish(null);
-      setFormData({ name: "", category: "soup" });
+	  // TODO: why is was this like this, can I remove this?
+	  //setFormData({ name: "", category: "soup" });
+      setFormData(null);
     }
     setIsDialogOpen(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.category) return;
+    if (!formData) return;
 
     if (editingDish) {
-      setDishes((prev) =>
-        prev.map((d) =>
-          d.id === editingDish.id
-            ? { ...d, name: formData.name, category: formData.category as Dish["category"] }
-            : d
-        )
-      );
-      toast({ title: "Dish updated successfully" });
+		editingDish.name = formData.name;
+		editingDish.category = formData.category;
+		updateDish(editingDish);
+		toast({ title: "Dish updated successfully" });
     } else {
-      const newDish: Dish = {
-        id: Date.now().toString(),
-        name: formData.name,
-        category: formData.category as Dish["category"],
-      };
-      setDishes((prev) => [...prev, newDish]);
+      addDish(formData.name, formData.category);
       toast({ title: "Dish created successfully" });
     }
 
     setIsDialogOpen(false);
-    setFormData({ name: "", category: "" });
+    setFormData(null);
   };
 
   const handleDelete = (id: string) => {
-    setDishes((prev) => prev.filter((d) => d.id !== id));
+	deleteDish(id);
     toast({ title: "Dish deleted successfully", variant: "destructive" });
   };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -180,8 +155,8 @@ const DishView = () => {
               <Label htmlFor="name">Dish Name</Label>
               <Input
                 id="name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                value={formData ? formData.name: ""}
+                onChange={(e) =>setFormData({ ...formData, name: e.target.value })}
                 placeholder="Enter dish name"
                 required
               />
@@ -189,18 +164,24 @@ const DishView = () => {
             <div>
               <Label htmlFor="category">Category</Label>
               <Select
-                value={formData.category}
-                onValueChange={(value) => setFormData({ ...formData, category: value })}
+                value={formData? formData.category: ""}
+                onValueChange={(value) =>{
+					if (formData){
+						setFormData({ ...formData, category: value as DishCategory })
+					}else{
+						setFormData(null)
+					}
+				}}
                 required
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="soup">🍲 Soup</SelectItem>
-                  <SelectItem value="main">🍖 Main</SelectItem>
-                  <SelectItem value="side">🥔 Side</SelectItem>
-                  <SelectItem value="salad">🥗 Salad</SelectItem>
+                  <SelectItem key='Soup' value="soup">🍲 Soup</SelectItem>
+                  <SelectItem key='main' value="main">🍖 Main</SelectItem>
+                  <SelectItem key='side' value="side">🥔 Side</SelectItem>
+                  <SelectItem key='salad' value="salad">🥗 Salad</SelectItem>
                 </SelectContent>
               </Select>
             </div>

@@ -18,9 +18,9 @@ export class Dish {
 	name: string;
 	category: DishCategory;
 	icon: typeof DishIcon[DishCategory];
-	constructor(category: DishCategory, data: Dish) {
-		this.id = data.id;
-		this.name = data.name;
+	constructor(id:string, name:string, category: DishCategory) {
+		this.id = id;
+		this.name = name;
 		this.category = category;
 		this.icon = DishIcon[category];
 	}

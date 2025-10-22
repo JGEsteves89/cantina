@@ -6,24 +6,42 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MenuView from "./pages/MenuView";
 import DishView from "./pages/DishView";
 import NotFound from "./pages/NotFound";
+import { useEffect } from "react";
+import { useAppStore } from "@/store/appStore";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MenuView />} />
-          <Route path="/dishes" element={<DishView />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const { initialize, isLoading } = useAppStore();
+
+  // Run initialization only once on app mount
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen text-muted-foreground">
+        Loading menu data...
+      </div>
+    );
+  }
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MenuView />} />
+            <Route path="/dishes" element={<DishView />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
