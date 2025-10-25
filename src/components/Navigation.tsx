@@ -33,7 +33,7 @@ const Navigation = () => {
                     "flex items-center gap-2 px-4 py-2 rounded-lg transition-all",
                     isActive
                       ? "bg-primary text-primary-foreground shadow-md"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   <Icon className="h-5 w-5" />

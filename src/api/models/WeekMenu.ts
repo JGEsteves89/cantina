@@ -2,6 +2,8 @@ import { addDays, startOfWeek } from "date-fns";
 import { DayMenu } from "./DayMenu";
 import { Dish, DishCategory } from "./Dish";
 
+const DAYS_OF_WEEK = 7;
+
 export enum Weekday {
   Monday = "monday",
   Tuesday = "tuesday",
@@ -17,15 +19,16 @@ export class WeekMenu {
     const today = new Date();
     const monday = startOfWeek(today, { weekStartsOn: 1 });
 
-    const menus = Object.values(Weekday).reduce((acc, weekday, i) => {
-      acc[weekday] = new DayMenu(
-        crypto.randomUUID(),
-        weekday,
-        addDays(today, i),
-        {} // empty dishes
+    const menus: DayMenu[];
+    for (let i = 0; i < DAYS_OF_WEEK; i++) {
+      menus.push(
+        new DayMenu(
+          crypto.randomUUID(),
+          addDays(today, i),
+          {}, // empty dishes
+        ),
       );
-      return acc;
-    }, {} as Record<Weekday, DayMenu>);
+    }
 
     return new WeekMenu(crypto.randomUUID(), monday, menus);
   }
@@ -33,7 +36,7 @@ export class WeekMenu {
   date: Date;
   menus: Record<Weekday, DayMenu>;
 
-  constructor(id: string, date: Date, menus: Record<Weekday, DayMenu>) {
+  constructor(id: string, date: Date, menus: DayMenu[]) {
     this.id = id;
     this.date = date;
     this.menus = menus;
