@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import { Dish, DishCategory, DishIcon, DayMenu, WeekMenu, Weekday } from "@/api"
 import { useAppStore } from "@/store/appStore";
 
 const MenuView = () => {
-  const { dishes, currentWeek, setDishInDay, removeDishInDay} = useAppStore();
+  const { dishes, currentWeek, setDishInDay, removeDishInDay } = useAppStore();
 
   const [selectedWeekDay, setSelectedWeekDay] = useState<Weekday | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -35,13 +36,13 @@ const MenuView = () => {
 
   const handleSelectDish = (dish: Dish) => {
     if (!selectedWeekDay || !selectedCategory) return;
-	setDishInDay(selectedWeekDay, dish);
+    setDishInDay(selectedWeekDay, dish);
     setSelectedWeekDay(null);
     setSelectedCategory(null);
   };
 
   const handleRemoveDish = (weekday: Weekday, category: DishCategory) => {
-	removeDishInDay(weekday, category);
+    removeDishInDay(weekday, category);
   };
 
   return (
@@ -62,7 +63,7 @@ const MenuView = () => {
                   <div>
                     <span className="text-2xl font-bold text-foreground">{dayMenu.weekday}</span>
                     {/* TODO: Either remove me or change with something else */}
-                    <span className="text-sm text-muted-foreground ml-3">{dayMenu.weekday}</span> 
+                    <span className="text-sm text-muted-foreground ml-3">{format(dayMenu.date, 'yyyy-MM-dd')}</span>
                   </div>
                 </CardTitle>
               </CardHeader>
