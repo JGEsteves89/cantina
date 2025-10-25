@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Dish } from "@/api/models/Dish";
-import { DishCategory, api, Weekday, WeekMenu, DayMenu } from "@/api";
+import { Dish, DishCategory, api, Weekday, WeekMenu } from "@/api";
 
 // Store definition
 interface AppStore {
@@ -23,7 +22,7 @@ interface AppStore {
 // Zustand store with persistence
 export const useAppStore = create<AppStore>()(
   persist(
-    (set, get) => ({
+    (set, _get) => ({
       // Initial state
       isLoading: true,
       currentWeek: WeekMenu.empty(),
@@ -51,7 +50,7 @@ export const useAppStore = create<AppStore>()(
       // --- WEEK MENU ACTIONS ---
       setDishInDay: async (weekday, dish) => {
         const weekMenu = await api.updateDishToCategoryOfWeekday(weekday, dish);
-        set((state) => ({ currentWeek: weekMenu }));
+        set((_state) => ({ currentWeek: weekMenu }));
       },
 
       removeDishInDay: async (weekday, category) => {
@@ -59,23 +58,23 @@ export const useAppStore = create<AppStore>()(
           weekday,
           category,
         );
-        set((state) => ({ currentWeek: weekMenu }));
+        set((_state) => ({ currentWeek: weekMenu }));
       },
 
       // --- DISH ACTIONS ---
       addDish: async (name, category) => {
         const dishes = await api.createDish(name, category);
-        set((state) => ({ dishes }));
+        set((_state) => ({ dishes }));
       },
 
       updateDish: async (dish) => {
         const dishes = await api.updateDish(dish);
-        set((state) => ({ dishes }));
+        set((_state) => ({ dishes }));
       },
 
       deleteDish: async (id) => {
         const dishes = await api.deleteDish(id);
-        set((state) => ({ dishes }));
+        set((_state) => ({ dishes }));
       },
     }),
     {

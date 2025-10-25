@@ -1,6 +1,5 @@
 import { addDays, startOfWeek } from "date-fns";
 import { DayMenu } from "./DayMenu";
-import { Dish, DishCategory } from "./Dish";
 
 const DAYS_OF_WEEK = 7;
 
@@ -19,7 +18,7 @@ export class WeekMenu {
     const today = new Date();
     const monday = startOfWeek(today, { weekStartsOn: 1 });
 
-    const menus: DayMenu[];
+    const menus: DayMenu[] = [];
     for (let i = 0; i < DAYS_OF_WEEK; i++) {
       menus.push(
         new DayMenu(
@@ -34,7 +33,7 @@ export class WeekMenu {
   }
   id: string;
   date: Date;
-  menus: Record<Weekday, DayMenu>;
+  menus: DayMenu[];
 
   constructor(id: string, date: Date, menus: DayMenu[]) {
     this.id = id;

@@ -11,14 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import Navigation from "@/components/Navigation";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dish,
-  DishCategory,
-  DishIcon,
-  DayMenu,
-  WeekMenu,
-  Weekday,
-} from "@/api";
+import { Weekday, Dish, DishCategory, DishIcon } from "@/api";
 import { useAppStore } from "@/store/appStore";
 
 const MenuView = () => {
@@ -75,75 +68,72 @@ const MenuView = () => {
         </div>
 
         <div className="grid gap-6">
-          {Object.values(Weekday)
-            .map((weekday) => currentWeek.menus[weekday])
-            .map((dayMenu) => (
-              <Card
-                key={dayMenu.weekday}
-                className="overflow-hidden hover:shadow-lg transition-all"
-              >
-                <CardHeader className="bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border">
-                  <CardTitle className="flex items-center justify-between">
-                    <div>
-                      <span className="text-2xl font-bold text-foreground">
-                        {dayMenu.weekday}
-                      </span>
-                      {/* TODO: Either remove me or change with something else */}
-                      <span className="text-sm text-muted-foreground ml-3">
-                        {format(dayMenu.date, "yyyy-MM-dd")}
-                      </span>
-                    </div>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {Object.values(DishCategory).map((category) => (
-                      <div
-                        key={category}
-                        className="border-2 border-border rounded-lg p-4 bg-card hover:shadow-md transition-all"
-                      >
-                        <div className="flex items-center justify-between mb-3">
-                          <Badge
-                            variant="outline"
-                            className={categoryColors[category]}
-                          >
-                            {categoryLabels[category]}
-                          </Badge>
-                          {dayMenu[category] && (
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-6 w-6 text-destructive hover:text-destructive hover:bg-destructive/10"
-                              onClick={() =>
-                                handleRemoveDish(dayMenu.weekday, category)
-                              }
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          )}
-                        </div>
-                        {dayMenu[category] ? (
-                          <p className="font-medium text-foreground">
-                            {dayMenu[category].name}
-                          </p>
-                        ) : (
+          {currentWeek.menus.map((dayMenu) => (
+            <Card
+              key={dayMenu.weekday}
+              className="overflow-hidden hover:shadow-lg transition-all"
+            >
+              <CardHeader className="bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border">
+                <CardTitle className="flex items-center justify-between">
+                  <div>
+                    <span className="text-2xl font-bold text-foreground">
+                      {dayMenu.weekday}
+                    </span>
+                    <span className="text-sm text-muted-foreground ml-3">
+                      {format(dayMenu.date, "yyyy-MM-dd")}
+                    </span>
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {Object.values(DishCategory).map((category) => (
+                    <div
+                      key={category}
+                      className="border-2 border-border rounded-lg p-4 bg-card hover:shadow-md transition-all"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <Badge
+                          variant="outline"
+                          className={categoryColors[category]}
+                        >
+                          {categoryLabels[category]}
+                        </Badge>
+                        {dayMenu[category] && (
                           <Button
-                            variant="outline"
-                            className="w-full border-dashed hover:bg-primary/5 hover:border-primary"
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 text-destructive hover:text-destructive hover:bg-destructive/10"
                             onClick={() =>
-                              handleAddDish(dayMenu.weekday, category)
+                              handleRemoveDish(dayMenu.weekday, category)
                             }
                           >
-                            <Plus className="h-4 w-4 mr-2" />
-                            Add Dish
+                            <Trash2 className="h-4 w-4" />
                           </Button>
                         )}
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                      {dayMenu[category] ? (
+                        <p className="font-medium text-foreground">
+                          {dayMenu[category].name}
+                        </p>
+                      ) : (
+                        <Button
+                          variant="outline"
+                          className="w-full border-dashed hover:bg-primary/5 hover:border-primary"
+                          onClick={() =>
+                            handleAddDish(dayMenu.weekday, category)
+                          }
+                        >
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add Dish
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </main>
 

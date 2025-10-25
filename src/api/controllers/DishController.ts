@@ -51,7 +51,6 @@ export class DishController {
   }
 
   static async updateDish(newDish: Dish): Promise<Dish[]> {
-    console.log("Updating dish", newDish.id, "with data", newDish);
     const dish = db.dishes.find((d) => d.id === newDish.id);
     if (!dish) {
       throw new Error("Could not find the dish with id " + dish.id);

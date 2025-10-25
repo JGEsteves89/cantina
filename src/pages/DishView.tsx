@@ -61,8 +61,6 @@ const DishView = () => {
       setFormData({ name: dish.name, category: dish.category });
     } else {
       setEditingDish(null);
-      // TODO: why is was this like this, can I remove this?
-      //setFormData({ name: "", category: "soup" });
       setFormData(null);
     }
     setIsDialogOpen(true);
@@ -116,7 +114,9 @@ const DishView = () => {
             Object.keys(groupedDishes) as Array<keyof typeof groupedDishes>
           ).map((category) => (
             <Card key={category} className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border">
+              <CardHeader
+                className={`bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border ${categoryColors[category]}`}
+              >
                 <CardTitle className="flex items-center gap-2">
                   <span className="text-2xl">{categoryIcons[category]}</span>
                   <span className="capitalize">{category}s</span>
