@@ -1,9 +1,9 @@
-import { format } from "date-fns";
-import { Main } from "./dishes/Main";
-import { Salad } from "./dishes/Salad";
-import { Side } from "./dishes/Side";
-import { Soup } from "./dishes/Soup";
-import { Weekday } from "./WeekMenu";
+import { format } from 'date-fns';
+import { Main } from './dishes/Main';
+import { Salad } from './dishes/Salad';
+import { Side } from './dishes/Side';
+import { Soup } from './dishes/Soup';
+import { Weekday } from './WeekMenu';
 
 export class DayMenu {
   id: string;
@@ -21,9 +21,7 @@ export class DayMenu {
     this.id = id;
     this.date = date;
     // gets the name of day of the week and convert it to the enum Weekday
-    this.weekday = Weekday[
-      format(date, "EEEE") as keyof typeof Weekday
-    ].toLowerCase() as Weekday;
+    this.weekday = Weekday[format(date, 'EEEE') as keyof typeof Weekday].toLowerCase() as Weekday;
     this.soup = data.soup;
     this.main = data.main;
     this.side = data.side;

@@ -1,15 +1,15 @@
 export enum DishCategory {
-  Soup = "soup",
-  Main = "main",
-  Side = "side",
-  Salad = "salad",
+  Soup = 'soup',
+  Main = 'main',
+  Side = 'side',
+  Salad = 'salad',
 }
 
 export const DishIcon: Record<DishCategory, string> = {
-  [DishCategory.Soup]: "🍲",
-  [DishCategory.Main]: "🍖",
-  [DishCategory.Side]: "🥔",
-  [DishCategory.Salad]: "🥗",
+  [DishCategory.Soup]: '🍲',
+  [DishCategory.Main]: '🍖',
+  [DishCategory.Side]: '🥔',
+  [DishCategory.Salad]: '🥗',
 } as const;
 
 export class Dish {

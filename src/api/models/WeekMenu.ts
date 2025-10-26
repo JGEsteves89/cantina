@@ -1,16 +1,16 @@
-import { addDays, startOfWeek } from "date-fns";
-import { DayMenu } from "./DayMenu";
+import { addDays, startOfWeek } from 'date-fns';
+import { DayMenu } from './DayMenu';
 
-const DAYS_OF_WEEK = 7;
+export const DAYS_OF_WEEK = 7;
 
 export enum Weekday {
-  Monday = "monday",
-  Tuesday = "tuesday",
-  Wednesday = "wednesday",
-  Thursday = "thursday",
-  Friday = "friday",
-  Saturday = "saturday",
-  Sunday = "sunday",
+  Monday = 'monday',
+  Tuesday = 'tuesday',
+  Wednesday = 'wednesday',
+  Thursday = 'thursday',
+  Friday = 'friday',
+  Saturday = 'saturday',
+  Sunday = 'sunday',
 }
 
 export class WeekMenu {

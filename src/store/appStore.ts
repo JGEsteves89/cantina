@@ -1,29 +1,22 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { Dish, DishCategory, api, Weekday, WeekMenu } from "@/api";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { Dish, DishCategory, api, WeekMenu } from '@/api';
 
-// Store definition
 interface AppStore {
   isLoading: boolean;
-  initialize: () => void;
-
-  // Week menu
   currentWeek: WeekMenu;
-  setDishInDay: (weekday: Weekday, dish: Dish) => void;
-  removeDishInDay: (weekday: Weekday, category: DishCategory) => void;
-
-  // Dishes pool
   dishes: Dish[];
-  addDish: (name: string, category: DishCategory) => Promise<void>;
-  updateDish: (dish: Dish) => void;
-  deleteDish: (id: string) => void;
+  initialize: () => void;
+  addDishToDay: (date: Date, dish: Dish) => void;
+  removeDishFromDay: (date: Date, category: DishCategory) => void;
+  addDish: (name: string, category: DishCategory) => void;
+  editDish: (dish: Dish) => void;
+  removeDish: (id: string) => void;
 }
 
-// Zustand store with persistence
-export const useAppStore = create<AppStore>()(
-  persist(
+export const useAppStore = create(
+  persist<AppStore>(
     (set, _get) => ({
-      // Initial state
       isLoading: true,
       currentWeek: WeekMenu.empty(),
       dishes: [],
@@ -31,54 +24,48 @@ export const useAppStore = create<AppStore>()(
       initialize: async () => {
         set({ isLoading: true });
         try {
-          const [currentWeekMenu, allDishes] = await Promise.all([
-            api.fetchCurrentWeekMenu(),
-            api.fetchAllDishes(),
-          ]);
-
+          const currentWeek = await api.getWeekMenu();
+          const dishes = await api.getAllDishes();
           set({
-            currentWeek: currentWeekMenu,
-            dishes: allDishes,
+            currentWeek,
+            dishes,
             isLoading: false,
           });
         } catch (err) {
-          console.error("Failed to initialize menu store:", err);
+          console.error('Failed to initialize menu store:', err);
           set({ isLoading: false });
         }
       },
 
       // --- WEEK MENU ACTIONS ---
-      setDishInDay: async (weekday, dish) => {
-        const weekMenu = await api.updateDishToCategoryOfWeekday(weekday, dish);
-        set((_state) => ({ currentWeek: weekMenu }));
+      addDishToDay: async (date: Date, dish: Dish) => {
+        const weekMenu = await api.addDishToDay(date, dish);
+        set(() => ({ currentWeek: weekMenu }));
       },
 
-      removeDishInDay: async (weekday, category) => {
-        const weekMenu = await api.deleteDishToCategoryOfWeekday(
-          weekday,
-          category,
-        );
-        set((_state) => ({ currentWeek: weekMenu }));
+      removeDishFromDay: async (date: Date, category: DishCategory) => {
+        const weekMenu = await api.removeDishFromDay(date, category);
+        set(() => ({ currentWeek: weekMenu }));
       },
 
       // --- DISH ACTIONS ---
-      addDish: async (name, category) => {
-        const dishes = await api.createDish(name, category);
-        set((_state) => ({ dishes }));
+      addDish: async (name: string, category: DishCategory) => {
+        const dishes = await api.addDish(name, category);
+        set(() => ({ dishes }));
       },
 
-      updateDish: async (dish) => {
-        const dishes = await api.updateDish(dish);
-        set((_state) => ({ dishes }));
+      editDish: async (dish: Dish) => {
+        const dishes = await api.editDish(dish);
+        set(() => ({ dishes }));
       },
 
-      deleteDish: async (id) => {
-        const dishes = await api.deleteDish(id);
-        set((_state) => ({ dishes }));
+      removeDish: async (id: string) => {
+        const dishes = await api.removeDish(id);
+        set(() => ({ dishes }));
       },
     }),
     {
-      name: "cantina-storage", // localStorage key
+      name: 'cantina-storage',
     },
   ),
 );
