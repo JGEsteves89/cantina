@@ -8,7 +8,7 @@ import { Soup } from '../models/dishes/Soup';
 import { Main } from '../models/dishes/Main';
 import { Side } from '../models/dishes/Side';
 import { Salad } from '../models/dishes/Salad';
-import { CONFIG } from '../config';
+import { ConfigManager } from '../config';
 
 type RawDayMenu = {
   id: string;
@@ -33,7 +33,7 @@ export class WeekMenuController {
     const dishes = await DishController.getAllDishes();
     const menus: DayMenu[] = [];
 
-    for (let i = 0; i < CONFIG.DAYS_TO_BE_SCHEDULES; i++) {
+    for (let i = 0; i < ConfigManager.get().DAYS_TO_BE_SCHEDULES; i++) {
       const date = addDays(today, i);
       const rawMenu = rawDayMenus.find((d) => isSameDay(new Date(d.date), date));
       if (rawMenu) {

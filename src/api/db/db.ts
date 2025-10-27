@@ -1,5 +1,5 @@
 import MyJSON from 'my-json-server-lib';
-import { CONFIG } from '../config';
+import { ConfigManager } from '../config';
 
 type GenericType = Record<string, unknown> | Record<string, unknown>[];
 
@@ -15,8 +15,8 @@ export class DB<T> {
   the() {
     if (this.instance === null) {
       this.instance = MyJSON.connect(
-        `${CONFIG.MY_JSON_SERVER_URL}/${this.path}`,
-        CONFIG.MY_JSON_SERVER_API,
+        `${ConfigManager.get().MY_JSON_SERVER_URL}/${this.path}`,
+        ConfigManager.get().MY_JSON_SERVER_API,
       );
     }
     return this.instance;

@@ -1,6 +1,5 @@
-import { addDays, startOfWeek } from 'date-fns';
+import { startOfWeek } from 'date-fns';
 import { DayMenu } from './DayMenu';
-import { CONFIG } from '../config';
 
 export enum Weekday {
   Monday = 'monday',
@@ -18,15 +17,6 @@ export class WeekMenu {
     const monday = startOfWeek(today, { weekStartsOn: 1 });
 
     const menus: DayMenu[] = [];
-    for (let i = 0; i < CONFIG.DAYS_TO_BE_SCHEDULES; i++) {
-      menus.push(
-        new DayMenu(
-          today.toISOString(),
-          addDays(today, i),
-          {}, // empty dishes
-        ),
-      );
-    }
 
     return new WeekMenu(today.toISOString(), monday, menus);
   }

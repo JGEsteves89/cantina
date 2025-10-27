@@ -2,6 +2,7 @@ import { getWeek } from 'date-fns';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Dish, DishCategory, api, WeekMenu } from '@/api';
+import { Config } from '@/api/config';
 
 interface AppStore {
   isLoading: boolean;
@@ -22,12 +23,18 @@ export const useAppStore = create(
       isLoading: true,
       currentWeek: WeekMenu.empty(),
       dishes: [],
+      config: null,
 
       initialize: async () => {
         set({ isLoading: true });
         try {
+          const configRes = await fetch('/config.json');
+          const config = (await configRes.json()) as Config;
+          api.setConfig(config);
+
           const currentWeek = await api.getWeekMenu();
           const dishes = await api.getAllDishes();
+
           set({
             currentWeek,
             dishes,

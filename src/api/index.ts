@@ -8,12 +8,17 @@ import { Soup } from './models/dishes/Soup';
 
 import { DishController } from './controllers/DishController';
 import { WeekMenuController } from './controllers/WeekMenuController';
+import { Config, ConfigManager } from './config';
 
 const log = (label: string, data?: unknown) => {
   console.log(`[API] ${label}`, data ? data : '');
 };
 
 const api = {
+  setConfig(config: Config) {
+    log('Setting configuration');
+    ConfigManager.set(config);
+  },
   getWeekMenu: async () => {
     log('getWeekMenu: start');
     const res = await WeekMenuController.getWeekMenu();
