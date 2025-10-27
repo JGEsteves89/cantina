@@ -36,9 +36,9 @@ const api = {
   },
 
   getAllDishes: async () => {
-    log('fetchCurrentWeekMenu: start');
+    log('getAllDishes: start');
     const res = await DishController.getAllDishes();
-    log('fetchCurrentWeekMenu: result', res);
+    log('getAllDishes: result', res);
     return res;
   },
 
