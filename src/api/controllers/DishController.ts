@@ -30,8 +30,10 @@ export class DishController {
     let id = name
       .trim()
       .toLowerCase()
-      .replace(/[^\w\-]/g, '_')
-      .replace(/^(\d)/, '_$1');
+      .normalize('NFD') // decompose accented chars
+      .replace(/[\u0300-\u036f]/g, '') // remove diacritics
+      .replace(/[^\p{L}\d-]+/gu, '_') // keep letters and digits, replace others
+      .replace(/^(\d)/, '_$1'); // prefix leading digits
 
     const dishes = await this.getAllDishes();
     const alreadyWithId = dishes.filter((d) => d.id === id);

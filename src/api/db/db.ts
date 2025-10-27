@@ -1,7 +1,7 @@
 import MyJSON from 'my-json-server-lib';
 
-const API_TOKEN = 'THIS_IS_A_CLIENT_TOKEN';
-const URL = 'http://localhost:3000';
+const API_TOKEN = 'let see if we can start to eat healthy';
+const URL = 'http://192.168.1.100:4123';
 type GenericType = Record<string, unknown> | Record<string, unknown>[];
 
 export class DB<T> {
