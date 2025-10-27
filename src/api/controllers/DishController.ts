@@ -1,21 +1,9 @@
+import { DB } from '../db/db';
 import { Dish, DishCategory } from '../models/Dish';
 import { Main } from '../models/dishes/Main';
 import { Salad } from '../models/dishes/Salad';
 import { Side } from '../models/dishes/Side';
 import { Soup } from '../models/dishes/Soup';
-
-const db = {
-  dishes: [
-    { category: 'soup', id: 'lentil_soup', name: 'Lentil soup' },
-    { category: 'soup', id: 'french_onion_soup', name: 'French onion soup' },
-    { category: 'main', id: 'salmon_fillet', name: 'Salmon fillet' },
-    { category: 'main', id: 'vegetable_curry', name: 'Vegetable curry' },
-    { category: 'side', id: 'mashed_potatoes', name: 'Mashed potatoes' },
-    { category: 'side', id: 'steamed_broccoli', name: 'Steamed broccoli' },
-    { category: 'salad', id: 'greek_salad', name: 'Greek salad' },
-    { category: 'salad', id: 'garden_salad', name: 'Garden salad' },
-  ],
-};
 
 type RawDish = {
   id: string;
@@ -24,11 +12,12 @@ type RawDish = {
 };
 
 export class DishController {
+  private static db = new DB<RawDish[]>('dishes', []);
   private static cache: Dish[] | null = null;
 
   static async getAllDishes(): Promise<Dish[]> {
     if (this.cache) return this.cache;
-    const rawDishes = db.dishes;
+    const rawDishes = await this.db.read();
     const dishes: Dish[] = [];
     for (const rawDish of rawDishes) {
       dishes.push(this.mapFromJSON(rawDish));
@@ -115,7 +104,7 @@ export class DishController {
     for (const dish of dishes) {
       rawDishes.push(this.mapToJSON(dish));
     }
-    db.dishes = rawDishes;
+    this.db.write(rawDishes);
     this.cache = dishes;
     return dishes;
   }

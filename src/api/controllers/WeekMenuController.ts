@@ -1,4 +1,5 @@
 import { isSameDay, addDays, format, startOfDay } from 'date-fns';
+import { DB } from '../db/db';
 import { Dish, DishCategory } from '../models/Dish';
 import { WeekMenu, DAYS_OF_WEEK } from '../models/WeekMenu';
 import { DishController } from './DishController';
@@ -7,51 +8,6 @@ import { Soup } from '../models/dishes/Soup';
 import { Main } from '../models/dishes/Main';
 import { Side } from '../models/dishes/Side';
 import { Salad } from '../models/dishes/Salad';
-
-const db = {
-  menus: [
-    {
-      id: 'm1',
-      date: '2025-10-25T00:00:00.000Z',
-      soup: 'lentil_soup',
-      main: 'salmon_fillet',
-      side: 'mashed_potatoes',
-      salad: 'steamed_broccoli',
-    },
-    {
-      id: 'm2',
-      date: '2025-10-26T00:00:00.000Z',
-      soup: 'lentil_soup',
-      main: 'salmon_fillet',
-      side: 'mashed_potatoes',
-      salad: 'steamed_broccoli',
-    },
-    {
-      id: 'm3',
-      date: '2025-10-27T00:00:00.000Z',
-      soup: undefined,
-      main: undefined,
-      side: undefined,
-      salad: undefined,
-    },
-    {
-      id: 'm4',
-      date: '2025-10-28T00:00:00.000Z',
-      soup: undefined,
-      main: undefined,
-      side: undefined,
-      salad: undefined,
-    },
-    {
-      id: 'm5',
-      date: '2025-10-29T00:00:00.000Z',
-      soup: undefined,
-      main: undefined,
-      side: undefined,
-      salad: undefined,
-    },
-  ],
-};
 
 type RawDayMenu = {
   id: string;
@@ -63,19 +19,22 @@ type RawDayMenu = {
 };
 
 export class WeekMenuController {
+  private static db = new DB<RawDayMenu[]>('menus', []);
   private static cache: WeekMenu | null = null;
 
   static async getWeekMenu(): Promise<WeekMenu> {
     if (this.cache) {
       return this.cache;
     }
+    const rawDayMenus = await this.db.read();
+
     const today = startOfDay(new Date());
     const dishes = await DishController.getAllDishes();
     const menus: DayMenu[] = [];
 
     for (let i = 0; i < DAYS_OF_WEEK; i++) {
       const date = addDays(today, i);
-      const rawMenu = db.menus.find((d) => isSameDay(new Date(d.date), date));
+      const rawMenu = rawDayMenus.find((d) => isSameDay(new Date(d.date), date));
       if (rawMenu) {
         menus.push(this.mapFromJSON(rawMenu, dishes));
       } else {
@@ -120,15 +79,17 @@ export class WeekMenuController {
   }
 
   static async persistWeekMenu(weekMenu: WeekMenu): Promise<WeekMenu> {
-    for (const dayMenu of weekMenu.menus) {
-      const rawDayMenu = db.menus.find((d) => d.id === dayMenu.id);
-      if (rawDayMenu) {
-        db.menus = db.menus.filter((d) => d.id !== rawDayMenu.id);
-      }
-      db.menus.push(this.mapToJSON(dayMenu));
-    }
+    let rawDayMenus = await this.db.read();
 
-    WeekMenuController.cache = weekMenu;
+    for (const dayMenu of weekMenu.menus) {
+      const rawDayMenu = rawDayMenus.find((d) => d.id === dayMenu.id);
+      if (rawDayMenu) {
+        rawDayMenus = rawDayMenus.filter((d) => d.id !== rawDayMenu.id);
+      }
+      rawDayMenus.push(this.mapToJSON(dayMenu));
+    }
+    this.db.write(rawDayMenus);
+    this.cache = weekMenu;
     return weekMenu;
   }
 
