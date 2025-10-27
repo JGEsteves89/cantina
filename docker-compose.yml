@@ -5,10 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        VITE_DAYS_TO_BE_SCHEDULES: 5
+        VITE_MY_JSON_SERVER_URL: "http://my-json-server"
+        VITE_MY_JSON_SERVER_API: "TOKEN"
     container_name: cantina
     ports:
       - "8080:80"  # maps Nginx port 80 to localhost:8080
-    environment:
-      VITE_DAYS_TO_BE_SCHEDULES: 5
-      VITE_MY_JSON_SERVER_URL: "http://my-json-server:3000/"
-      VITE_MY_JSON_SERVER_API: "TEST_TOKEN"

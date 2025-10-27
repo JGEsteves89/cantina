@@ -1,5 +1,14 @@
-export const CONFIG = {
-  DAYS_TO_BE_SCHEDULES: Number(import.meta.env.VITE_DAYS_TO_BE_SCHEDULES) || 3,
-  MY_JSON_SERVER_URL: import.meta.env.VITE_MY_JSON_SERVER_URL || 'http://localhost:3000/',
-  MY_JSON_SERVER_API: import.meta.env.VITE_MY_JSON_SERVER_API || 'TEST_TOKEN',
-};
+export interface Config {
+  DAYS_TO_BE_SCHEDULES: number;
+  MY_JSON_SERVER_URL: string;
+  MY_JSON_SERVER_API: string;
+}
+
+async function loadConfig(): Promise<Config> {
+  const res = await fetch('/config.json');
+  return await res.json();
+}
+
+const CONFIG = await loadConfig();
+
+export { CONFIG };
