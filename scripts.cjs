@@ -1,5 +1,6 @@
 /* eslint-disable sonarjs/os-command */
 const { execSync } = require('node:child_process');
+const fs = require('node:fs');
 const path = require('node:path');
 
 const pkgPath = path.resolve(__dirname, 'package.json');
@@ -13,8 +14,8 @@ const pkg = require(pkgPath);
 const appName = pkg.name;
 
 function getVersion() {
-  const pkg = require(pkgPath);
-  return pkg.version;
+  const pkgJson = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+  return pkgJson.version;
 }
 
 const scripts = {
