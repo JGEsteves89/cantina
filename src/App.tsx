@@ -10,6 +10,9 @@ import { useEffect } from 'react';
 import { useAppStore } from '@/store/appStore';
 
 const queryClient = new QueryClient();
+const Footer = () => (
+  <footer style={{ textAlign: 'center', padding: '1rem' }}>Cantina App v{__APP_VERSION__}</footer>
+);
 
 const App = () => {
   const { initialize, isLoading } = useAppStore();
@@ -39,6 +42,7 @@ const App = () => {
             <Route path='*' element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <Footer />
       </TooltipProvider>
     </QueryClientProvider>
   );

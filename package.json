@@ -9,7 +9,17 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:build": "node scripts.cjs dockerBuild",
+    "docker:push": "node scripts.cjs dockerPush",
+    "docker:release": "node scripts.cjs dockerRelease",
+    "docker:pull": "node scripts.cjs dockerPull",
+    "docker:stop": "node scripts.cjs dockerStop",
+    "docker:compose": "node scripts.cjs dockerCompose",
+    "docker:restart": "node scripts.cjs dockerRestart",
+    "release:patch": "node scripts.cjs releasePatch",
+    "release:minor": "node scripts.cjs releaseMinor",
+    "release:major": "node scripts.cjs releaseMajor"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
