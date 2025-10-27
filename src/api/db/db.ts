@@ -1,7 +1,6 @@
 import MyJSON from 'my-json-server-lib';
+import { CONFIG } from '../config';
 
-const API_TOKEN = 'let see if we can start to eat healthy';
-const URL = 'http://192.168.1.100:4123';
 type GenericType = Record<string, unknown> | Record<string, unknown>[];
 
 export class DB<T> {
@@ -15,7 +14,10 @@ export class DB<T> {
 
   the() {
     if (this.instance === null) {
-      this.instance = MyJSON.connect(`${URL}/${this.path}`, API_TOKEN);
+      this.instance = MyJSON.connect(
+        `${CONFIG.MY_JSON_SERVER_URL}/${this.path}`,
+        CONFIG.MY_JSON_SERVER_API,
+      );
     }
     return this.instance;
   }

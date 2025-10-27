@@ -10,7 +10,7 @@ import { Dish, DishCategory, DishIcon } from '@/api';
 import { useAppStore } from '@/store/appStore';
 
 const MenuView = () => {
-  const { dishes, currentWeek, addDishToDay, removeDishFromDay } = useAppStore();
+  const { getPreselectedDishes, currentWeek, addDishToDay, removeDishFromDay } = useAppStore();
 
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -54,8 +54,10 @@ const MenuView = () => {
 
       <main className='container mx-auto px-4 py-8'>
         <div className='mb-8'>
-          <h1 className='text-4xl font-bold text-foreground mb-2'>Weekly Menu</h1>
-          <p className='text-muted-foreground'>Plan and manage your restaurant's weekly menu</p>
+          <h1 className='text-4xl font-bold text-foreground mb-2'>Almost Weekly Menu</h1>
+          <p className='text-muted-foreground'>
+            Plan and manage your restaurant's almost weekly menu
+          </p>
         </div>
 
         <div className='grid gap-6'>
@@ -123,7 +125,7 @@ const MenuView = () => {
             </DialogTitle>
           </DialogHeader>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto'>
-            {dishes
+            {getPreselectedDishes()
               .filter((dish) => dish.category === selectedCategory)
               .map((dish) => (
                 <Button

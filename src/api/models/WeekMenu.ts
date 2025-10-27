@@ -1,7 +1,6 @@
 import { addDays, startOfWeek } from 'date-fns';
 import { DayMenu } from './DayMenu';
-
-export const DAYS_OF_WEEK = 7;
+import { CONFIG } from '../config';
 
 export enum Weekday {
   Monday = 'monday',
@@ -19,7 +18,7 @@ export class WeekMenu {
     const monday = startOfWeek(today, { weekStartsOn: 1 });
 
     const menus: DayMenu[] = [];
-    for (let i = 0; i < DAYS_OF_WEEK; i++) {
+    for (let i = 0; i < CONFIG.DAYS_TO_BE_SCHEDULES; i++) {
       menus.push(
         new DayMenu(
           crypto.randomUUID(),

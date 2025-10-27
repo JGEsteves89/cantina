@@ -1,13 +1,14 @@
 import { isSameDay, addDays, format, startOfDay } from 'date-fns';
 import { DB } from '../db/db';
 import { Dish, DishCategory } from '../models/Dish';
-import { WeekMenu, DAYS_OF_WEEK } from '../models/WeekMenu';
+import { WeekMenu } from '../models/WeekMenu';
 import { DishController } from './DishController';
 import { DayMenu } from '../models/DayMenu';
 import { Soup } from '../models/dishes/Soup';
 import { Main } from '../models/dishes/Main';
 import { Side } from '../models/dishes/Side';
 import { Salad } from '../models/dishes/Salad';
+import { CONFIG } from '../config';
 
 type RawDayMenu = {
   id: string;
@@ -32,7 +33,7 @@ export class WeekMenuController {
     const dishes = await DishController.getAllDishes();
     const menus: DayMenu[] = [];
 
-    for (let i = 0; i < DAYS_OF_WEEK; i++) {
+    for (let i = 0; i < CONFIG.DAYS_TO_BE_SCHEDULES; i++) {
       const date = addDays(today, i);
       const rawMenu = rawDayMenus.find((d) => isSameDay(new Date(d.date), date));
       if (rawMenu) {

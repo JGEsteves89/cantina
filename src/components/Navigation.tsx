@@ -6,7 +6,7 @@ const Navigation = () => {
   const location = useLocation();
 
   const navItems = [
-    { path: '/', icon: Calendar, label: 'Weekly Menu' },
+    { path: '/', icon: Calendar, label: 'Almost Weekly Menu' },
     { path: '/dishes', icon: Utensils, label: 'Manage Dishes' },
   ];
 
