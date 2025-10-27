@@ -1,7 +1,6 @@
 import { addDays, startOfWeek } from 'date-fns';
 import { DayMenu } from './DayMenu';
 import { CONFIG } from '../config';
-import { v4 as uuidv4 } from 'uuid';
 
 export enum Weekday {
   Monday = 'monday',
@@ -22,14 +21,14 @@ export class WeekMenu {
     for (let i = 0; i < CONFIG.DAYS_TO_BE_SCHEDULES; i++) {
       menus.push(
         new DayMenu(
-          uuidv4(),
+          today.toISOString(),
           addDays(today, i),
           {}, // empty dishes
         ),
       );
     }
 
-    return new WeekMenu(crypto.randomUUID(), monday, menus);
+    return new WeekMenu(today.toISOString(), monday, menus);
   }
   id: string;
   date: Date;
