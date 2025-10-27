@@ -2,13 +2,9 @@ version: "3.9"
 
 services:
   cantina:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        VITE_DAYS_TO_BE_SCHEDULES: 5
-        VITE_MY_JSON_SERVER_URL: "http://my-json-server"
-        VITE_MY_JSON_SERVER_API: "TOKEN"
+    image: ijimiguel/cantina:latest
     container_name: cantina
     ports:
       - "8080:80"  # maps Nginx port 80 to localhost:8080
+    volumes:
+      - ./config.json:/usr/share/nginx/html/config.json:ro
