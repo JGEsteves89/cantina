@@ -1,21 +1,31 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
-import pkg from './package.json';
 import path from 'path';
+import { defineConfig } from "vite";
+import pkg from './package.json';
+import react from "@vitejs/plugin-react";
+
+/// <reference types="vitest" />
+
+const test = {
+  globals: true,
+  environment: "jsdom",
+  setupFiles: ["src/__tests__/setupTests.ts"],
+  threads: false,
+  watch: false,
+};
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  server: {
-    host: '::',
-    port: 8080,
-  },
-  plugins: [react(), mode === 'development'].filter(Boolean),
+const isProd = process.env.NODE_ENV === "production";
+export default defineConfig({
+  plugins: [react()],
+  server: { port: 3000 },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src/client'),
+      '#': path.resolve(__dirname, './types'),
     },
   },
-  define: {
-    __APP_VERSION__: JSON.stringify(pkg.version),
+  build: {
+    minify: false,
   },
-}));
+  test,
+});

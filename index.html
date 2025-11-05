@@ -1,21 +1,33 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cantina</title>
-    <meta name="description" content="Planeia as comidas que mais gostas para esta semana!" />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-    <meta name="author" content="JE" />
 
-    <meta property="og:title" content="Cantina" />
-    <meta property="og:description" content="Sabemos sempre o que vamos comer" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="./banner.png" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cantina</title>
+  <meta name="description" content="Planeia as comidas que mais gostas para esta semana!" />
+  <meta content="width=device-width,initial-scale=1,maximum-scale=10,minimum-scale=.25,user-scalable=yes"
+    name="viewport" />
+  <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+  <!--head-->
+  <!-- ### Manifest and icons ### -->
+  <!-- General -->
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="application-name" content="App" />
+  <meta name="author" content="JE" />
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <meta property="og:title" content="Cantina" />
+  <meta property="og:description" content="Sabemos sempre o que vamos comer" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./banner.png" />
+
+</head>
+
+<body>
+  <div id="app" style="height: 100%; width: 100%"><!--app-html--></div>
+  <script type="module" src="/src/client/entry-client.tsx"></script>
+</body>
+
 </html>
