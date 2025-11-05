@@ -6,7 +6,7 @@ import compression from "compression";
 import serveStatic from "serve-static";
 import { createServer as createViteServer } from "vite";
 import { fileURLToPath } from "url";
-import apiRouter from "src/server/routes/api";
+import apiRouter from "./src/server/routes/api.js";
 
 import dotenv from 'dotenv';
 dotenv.config();

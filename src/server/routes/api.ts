@@ -1,7 +1,7 @@
-import { DishDTO } from "#/Dish";
 import { Request, Response, Router } from "express";
-import { DB } from "../db";
+import { DishDTO } from "#/Dish";
 import { MenuDTO } from "#/Menu";
+import { DB } from "../db.js";
 
 const D_DB = new DB<DishDTO[]>('dishes', []);
 const M_DB = new DB<MenuDTO[]>('menus', []);
