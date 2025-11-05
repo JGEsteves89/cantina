@@ -30,6 +30,7 @@ const scripts = {
   },
 
   dockerRelease: () => {
+    run(`npm run build`),
     scripts.dockerBuild();
     scripts.dockerPush();
   },

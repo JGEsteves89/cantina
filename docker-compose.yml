@@ -4,7 +4,10 @@ services:
   cantina:
     image: ijimiguel/cantina:latest
     container_name: cantina
+    restart: unless-stopped
     ports:
-      - "8080:80"  # maps Nginx port 80 to localhost:8080
-    volumes:
-      - ./config.json:/usr/share/nginx/html/config.json:ro
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      MY_JSON_SERVER_URL: "{MY_JSON_SERVER_URL}"
+      MY_JSON_SERVER_API: "{MY_JSON_SERVER_API_TOKEN}"
