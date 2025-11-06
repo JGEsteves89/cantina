@@ -1,6 +1,6 @@
 {
   "name": "cantina",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "**Cantina** is a modern web application that makes it easy to view, select, and manage weekly menus from your canteen. Whether you want to plan your meals in advance or contribute new dishes, Cantina provides a simple, intuitive interface for everyone — no login required.",
   "type": "module",
   "repository": {
