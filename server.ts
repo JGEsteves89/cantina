@@ -15,8 +15,6 @@ dotenv.config();
 
 consoleStamp(console, { format: ':date(yyyy-mm-dd HH:MM:ss.l)' });
 
-const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -50,7 +48,7 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
   const vite = await createViteServer({
     server: { middlewareMode: true },
     appType: "custom",
-    logLevel: isTest ? "error" : "info",
+    logLevel: "info",
     root: isProd ? "dist" : "",
     optimizeDeps: { include: [] },
   });
