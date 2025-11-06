@@ -8,9 +8,43 @@
 - [x] Connect to my-json-server
 - [x] Hide the url and token in env file
 - [x] Make and test the docker file
-- [ ] Update the state of the app on my-json-server change broadcast
-- [ ] Put the version of the app in the page
-- [ ] Make the top buttons smaller
-- [ ] Make the create dish button appear in each category
-- [ ] Fix the create dish dialog
-- [ ] Add an 'Add day' to the end of the list
+- [x] Put the version of the app in the page
+- [x] Fix the dish poll depending on the number of dishes
+- [x] Hide access to the server
+
+- [ ] Update app state when my-json-server changes
+  - [ ] Implement a listener or polling mechanism to detect changes on the server
+  - [ ] Update the frontend state automatically without a page refresh
+  - [ ] Test updates with multiple clients
+- [ ] Refine top buttons UI
+  - [ ] Reduce size of buttons for better layout
+  - [ ] Adjust padding/margin to maintain usability
+  - [ ] Ensure accessibility and touch targets remain appropriate
+- [ ] Enhance dish category presentation
+  - [ ] Make category sections larger visually
+  - [ ] Add a prominent icon for each category
+  - [ ] Position a badge at the bottom center of each icon
+- [ ] Add “Create Dish” button in all categories
+  - [ ] Display button consistently for each category
+  - [ ] Ensure button opens the create dish dialog pre-selecting the correct category
+  - [ ] Test button functionality for all dish types
+- [ ] Improve dishes view
+  - [ ] Add “Add” button for each dish group
+  - [ ] Pre-select category in the dialog when adding from a group
+  - [ ] Validate that new dishes appear in the correct category after creation
+- [ ] Enable adding more days to the schedule
+  - [ ] Add an option to extend the visible schedule beyond the current 7 days
+  - [ ] When loading, highlight days that already have menu selections
+  - [ ] Ensure selections persist when new days are added
+- [ ] Fix create dish dialog
+  - [ ] Ensure all fields validate correctly
+  - [ ] Correct any layout issues
+  - [ ] Test creation of all dish types and category assignment
+- [ ] Update footer with social handles
+  - [ ] Add icons/links for all your social accounts
+  - [ ] Ensure responsive layout
+  - [ ] Test link functionality on desktop and mobile
+- [ ] Update buttons and form fonts
+  - [ ] Choose a consistent font for all buttons and form fields
+  - [ ] Adjust font sizes for readability and design consistency
+  - [ ] Verify cross-browser appearance
