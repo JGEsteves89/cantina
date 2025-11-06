@@ -44,6 +44,5 @@
   - [x] Choose a consistent font for all buttons and form fields
   - [x] Adjust font sizes for readability and design consistency
   - [x] Verify cross-browser appearance
-- [ ] Update readme
+- [x] Update readme
 - [ ] Expose the app to the world
-- [ ] Show message/page when in error
