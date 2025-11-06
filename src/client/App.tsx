@@ -1,6 +1,10 @@
+import React from 'react';
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme';
 
 import { ToastProvider } from '@/components/ToastProvider';
 
@@ -31,14 +35,16 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastProvider>
-        <Routes>
-          <Route path='/' element={<MenuView />} />
-          <Route path='/dishes' element={<DishView />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-        <Footer />
-      </ToastProvider>
+      <ThemeProvider theme={theme}>
+        <ToastProvider>
+          <Routes>
+            <Route path='/' element={<MenuView />} />
+            <Route path='/dishes' element={<DishView />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+          <Footer />
+        </ToastProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };

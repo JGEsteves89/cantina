@@ -1,6 +1,7 @@
+import React from 'react';
 import { useState } from 'react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
-import { Button, type SelectChangeEvent } from '@mui/material';
+import { Button, type SelectChangeEvent, IconButton } from '@mui/material';
 import { Card, CardContent, CardHeader } from '@mui/material';
 import { Dialog, DialogContent, DialogTitle, DialogActions } from '@mui/material';
 import { TextField } from '@mui/material';
@@ -45,10 +46,13 @@ const DishView = () => {
     salad: dishes.filter((d) => d.category === DishCategory.Salad),
   };
 
-  const handleOpenDialog = (dish?: Dish) => {
+  const handleOpenDialog = (dish?: Dish, category?: DishCategory) => {
     if (dish) {
       setEditingDish(dish);
       setFormData({ name: dish.name, category: dish.category });
+    } else if (category) {
+      setEditingDish(null);
+      setFormData({ name: '', category: category });
     } else {
       setEditingDish(null);
       setFormData(null);
@@ -59,6 +63,7 @@ const DishView = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData) return;
+    if (formData.name === '') return;
 
     addOrUpdateDish(formData.name, formData.category);
     showToast({ title: 'Dish created successfully' });
@@ -72,8 +77,6 @@ const DishView = () => {
     showToast({ title: 'Dish deleted successfully', variant: 'destructive' });
   };
 
-  console.log('from the view', dishes.length);
-
   return (
     <div className='min-h-screen bg-background'>
       <Navigation />
@@ -83,7 +86,7 @@ const DishView = () => {
           <div>
             <h1 className='text-4xl font-bold text-foreground mb-2'>Manage Dishes</h1>
             <p className='text-muted-foreground'>
-              Add, edit, and organize your restaurant's dishes
+              Add, edit, and organize your house&apos;s dishes
             </p>
           </div>
           <Button onClick={() => handleOpenDialog()} className='shadow-lg'>
@@ -98,12 +101,48 @@ const DishView = () => {
               <CardHeader
                 className={`bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border ${categoryColors[category]}`}
                 title={
-                  <div className='flex items-center gap-2'>
+                  <div className='flex items-center gap-3'>
                     <span className='text-2xl'>{categoryIcons[category]}</span>
-                    <span className='capitalize'>{category}s</span>
-                    <Badge variant='standard' color='secondary' className='ml-auto'>
-                      {groupedDishes[category].length}
-                    </Badge>
+                    <span className='capitalize text-lg font-semibold'>{category}s</span>
+
+                    <div className='ml-auto flex items-center gap-2'>
+                      {/* Count badge */}
+                      <Badge
+                        badgeContent={groupedDishes[category].length}
+                        color='default'
+                        sx={{
+                          '& .MuiBadge-badge': {
+                            bgcolor: 'background.paper',
+                            color: 'text.secondary',
+                            border: '1px solid',
+                            borderColor: 'divider',
+                            fontSize: '0.875rem',
+                            fontWeight: 600,
+                            minWidth: '24px',
+                            height: '24px'
+                          }
+                        }}
+                      >
+                      </Badge>
+
+                      {/* Add button */}
+                      <IconButton
+                        onClick={() => handleOpenDialog(undefined, category as DishCategory)}
+                        aria-label="add dish"
+                        size="small"
+                        sx={{
+                          bgcolor: 'primary.main',
+                          color: 'white',
+                          '&:hover': {
+                            bgcolor: 'primary.dark',
+                            transform: 'scale(1.05)'
+                          },
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        <Plus fontSize="small" />
+                      </IconButton>
+                    </div>
                   </div>
                 }
               />
