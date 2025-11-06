@@ -31,12 +31,11 @@
   - [x] Make sure that when restarted, it shows all the menus until 1 week that have the menu set
 - [x] Enable adding more days to the schedule
   - [x] Add an option to extend the visible schedule beyond the current 7 days
-  - [x] When loading, highlight days that already have menu selections
   - [x] Ensure selections persist when new days are added
-- [ ] Fix create dish dialog
-  - [ ] Ensure all fields validate correctly
-  - [ ] Correct any layout issues
-  - [ ] Test creation of all dish types and category assignment
+- [x] Fix create dish dialog
+  - [x] Ensure all fields validate correctly
+  - [x] Correct any layout issues
+  - [x] Test creation of all dish types and category assignment
 - [ ] Update footer with social handles
   - [ ] Add icons/links for all your social accounts
   - [ ] Ensure responsive layout

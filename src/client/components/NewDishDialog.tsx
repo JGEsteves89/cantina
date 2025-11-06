@@ -46,7 +46,6 @@ const NewDishDialog: React.FC<NewDishDialogProps> = ({
           <div>
             <FormLabel htmlFor='category'>Category</FormLabel>
             <FormControl fullWidth>
-              <InputLabel id='category-label'>Category</InputLabel>
               <Select
                 labelId='category-label'
                 value={formData ? formData.category : ''}
