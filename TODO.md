@@ -11,11 +11,7 @@
 - [x] Put the version of the app in the page
 - [x] Fix the dish poll depending on the number of dishes
 - [x] Hide access to the server
-
-- [ ] Update app state when my-json-server changes
-  - [ ] Implement a listener or polling mechanism to detect changes on the server
-  - [ ] Update the frontend state automatically without a page refresh
-  - [ ] Test updates with multiple clients
+- [x] Update app state when my-json-server changes (WONT DO - this is not as relevant right now)
 - [ ] Refine top buttons UI
   - [ ] Reduce size of buttons for better layout
   - [ ] Adjust padding/margin to maintain usability
@@ -48,3 +44,4 @@
   - [ ] Choose a consistent font for all buttons and form fields
   - [ ] Adjust font sizes for readability and design consistency
   - [ ] Verify cross-browser appearance
+- [ ] Update readme

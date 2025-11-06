@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Calendar, Utensils, CookingPot } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -37,7 +38,7 @@ const Navigation = () => {
                   )}
                 >
                   <Icon className='h-5 w-5' />
-                  <span className='font-medium'>{item.label}</span>
+                  <span className='hidden md:inline font-medium'>{item.label}</span>
                 </Link>
               );
             })}
