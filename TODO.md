@@ -12,9 +12,9 @@
 - [x] Fix the dish poll depending on the number of dishes
 - [x] Hide access to the server
 - [x] Update app state when my-json-server changes (WONT DO - this is not as relevant right now)
-- [ ] Refine top buttons UI
-  - [ ] Reduce size of buttons for better layout
-  - [ ] Adjust padding/margin to maintain usability
+- [x] Refine top buttons UI
+  - [x] Reduce size of buttons for better layout
+  - [x] Adjust padding/margin to maintain usability
   - [ ] Ensure accessibility and touch targets remain appropriate
 - [ ] Enhance dish category presentation
   - [ ] Make category sections larger visually
