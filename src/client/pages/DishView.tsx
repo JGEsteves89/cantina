@@ -1,20 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
-import { Button, type SelectChangeEvent, IconButton } from '@mui/material';
-import { Card, CardContent, CardHeader } from '@mui/material';
-import { Dialog, DialogContent, DialogTitle, DialogActions } from '@mui/material';
-import { TextField } from '@mui/material';
-import { FormLabel } from '@mui/material';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Plus } from 'lucide-react';
+import { Button } from '@mui/material';
 import Navigation from '@/components/Navigation';
-import { Badge } from '@mui/material';
 
 import { useToast } from '@/components/ToastProvider';
-import { Dish, DishCategory, DishIcon } from '#/index';
+import { Dish, DishCategory } from '#/index';
 import { useAppStore } from '@/store/appStore';
+import NewDishDialog from '@/components/NewDishDialog';
+import DishCategoryCard from '@/components/DishCategoryCard';
 
-// Mock dishes pool
 const DishView = () => {
   const { dishes, addOrUpdateDish, removeDish } = useAppStore();
   const { showToast } = useToast();
@@ -97,158 +92,27 @@ const DishView = () => {
 
         <div className='grid gap-6 md:grid-cols-2'>
           {(Object.keys(groupedDishes) as Array<keyof typeof groupedDishes>).map((category) => (
-            <Card key={category} className='overflow-hidden'>
-              <CardHeader
-                className={`bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border ${categoryColors[category]}`}
-                title={
-                  <div className='flex items-center gap-3'>
-                    <span className='text-2xl'>{categoryIcons[category]}</span>
-                    <span className='capitalize text-lg font-semibold'>{category}s</span>
-
-                    <div className='ml-auto flex items-center gap-2'>
-                      {/* Count badge */}
-                      <Badge
-                        badgeContent={groupedDishes[category].length}
-                        color='default'
-                        sx={{
-                          '& .MuiBadge-badge': {
-                            bgcolor: 'background.paper',
-                            color: 'text.secondary',
-                            border: '1px solid',
-                            borderColor: 'divider',
-                            fontSize: '0.875rem',
-                            fontWeight: 600,
-                            minWidth: '24px',
-                            height: '24px'
-                          }
-                        }}
-                      >
-                      </Badge>
-
-                      {/* Add button */}
-                      <IconButton
-                        onClick={() => handleOpenDialog(undefined, category as DishCategory)}
-                        aria-label="add dish"
-                        size="small"
-                        sx={{
-                          bgcolor: 'primary.main',
-                          color: 'white',
-                          '&:hover': {
-                            bgcolor: 'primary.dark',
-                            transform: 'scale(1.05)'
-                          },
-                          transition: 'all 0.2s'
-                        }}
-                      >
-                        <Plus fontSize="small" />
-                      </IconButton>
-                    </div>
-                  </div>
-                }
-              />
-              <CardContent className='p-4'>
-                <div className='space-y-2'>
-                  {groupedDishes[category].length === 0 ? (
-                    <p className='text-center text-muted-foreground py-8'>No dishes yet</p>
-                  ) : (
-                    groupedDishes[category].map((dish) => (
-                      <div
-                        key={dish.id}
-                        className='flex items-center justify-between p-3 rounded-lg border border-border hover:bg-muted/50 transition-all'
-                      >
-                        <span className='font-medium text-foreground'>{dish.name}</span>
-                        <div className='flex gap-2'>
-                          <Button
-                            variant='outlined'
-                            size='small'
-                            className='h-8 w-8 hover:bg-primary/10 hover:text-primary'
-                            onClick={() => handleOpenDialog(dish)}
-                          >
-                            <Pencil className='h-4 w-4' />
-                          </Button>
-                          <Button
-                            variant='outlined'
-                            size='small'
-                            className='h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10'
-                            onClick={() => handleDelete(dish.id)}
-                          >
-                            <Trash2 className='h-4 w-4' />
-                          </Button>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <DishCategoryCard
+              key={category}
+              category={category as DishCategory}
+              dishes={groupedDishes[category]}
+              categoryColor={categoryColors[category]}
+              categoryIcon={categoryIcons[category]}
+              onAddDish={(cat) => handleOpenDialog(undefined, cat)}
+              onEditDish={(dish) => handleOpenDialog(dish)}
+              onDeleteDish={handleDelete}
+            />
           ))}
         </div>
       </main>
-      <Dialog open={isDialogOpen}>
-        <DialogTitle>{editingDish ? 'Edit Dish' : 'Add New Dish'}</DialogTitle>
-        <DialogContent>
-          <form onSubmit={handleSubmit} className='space-y-4'>
-            <div>
-              <FormLabel htmlFor='name'>Dish Name</FormLabel>
-              <TextField
-                id='name'
-                value={formData ? formData.name : ''}
-                onChange={(e: { target: { value: string } }) => {
-                  const category = formData?.category || DishCategory.Soup;
-                  const name = e.target.value;
-                  return setFormData({ name, category });
-                }}
-                placeholder='Enter dish name'
-                required
-              />
-            </div>
-            <div>
-              <FormLabel htmlFor='category'>Category</FormLabel>
-              <FormControl fullWidth>
-                <InputLabel id='category-label'>Category</InputLabel>
-                <Select
-                  labelId='category-label'
-                  value={formData ? formData.category : ''}
-                  onChange={(e: SelectChangeEvent<string>) => {
-                    const value = e.target.value as DishCategory;
-                    if (formData) {
-                      setFormData({
-                        ...formData,
-                        category: value,
-                      });
-                    } else {
-                      // initialize form with empty name and selected category
-                      setFormData({ name: '', category: value });
-                    }
-                  }}
-                >
-                  {Object.values(DishCategory).map((category) => (
-                    <MenuItem key={category} value={category}>
-                      {DishIcon[category] +
-                        ' ' +
-                        category.charAt(0).toUpperCase() +
-                        category.slice(1)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <DialogActions>
-              <Button
-                type='button'
-                variant='outlined'
-                onClick={() => setIsDialogOpen(false)}
-                className='flex-1'
-              >
-                Cancel
-              </Button>
-              <Button type='submit' className='flex-1'>
-                {editingDish ? 'Update' : 'Create'}
-              </Button>
-            </DialogActions>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <NewDishDialog
+        open={isDialogOpen}
+        editingDish={editingDish}
+        formData={formData}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleSubmit}
+        onFormChange={setFormData}
+      />
     </div>
   );
 };

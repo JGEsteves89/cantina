@@ -24,15 +24,15 @@
   - [x] Display button consistently for each category
   - [x] Ensure button opens the create dish dialog pre-selecting the correct category
   - [x] Test button functionality for all dish types
-- [ ] Improve dishes view
-  - [ ] Add “Add” button for each dish group
-  - [ ] Pre-select category in the dialog when adding from a group
-  - [ ] Validate that new dishes appear in the correct category after creation
-  - [ ] Make sure that when restarted, it shows all the menus until 1 week that have the menu set
-- [ ] Enable adding more days to the schedule
-  - [ ] Add an option to extend the visible schedule beyond the current 7 days
-  - [ ] When loading, highlight days that already have menu selections
-  - [ ] Ensure selections persist when new days are added
+- [x] Improve dishes view
+  - [x] Add “Add” button for each dish group
+  - [x] Pre-select category in the dialog when adding from a group
+  - [x] Validate that new dishes appear in the correct category after creation
+  - [x] Make sure that when restarted, it shows all the menus until 1 week that have the menu set
+- [x] Enable adding more days to the schedule
+  - [x] Add an option to extend the visible schedule beyond the current 7 days
+  - [x] When loading, highlight days that already have menu selections
+  - [x] Ensure selections persist when new days are added
 - [ ] Fix create dish dialog
   - [ ] Ensure all fields validate correctly
   - [ ] Correct any layout issues

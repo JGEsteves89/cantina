@@ -122,7 +122,6 @@ export const useAppStore = create(
           });
 
           // Refresh calendar after initialization
-          console.log('Menus', menus);
           await get().refreshCalendar();
         } catch (err) {
           const message = err instanceof Error ? err.message : 'Failed to initialize';
@@ -163,7 +162,6 @@ export const useAppStore = create(
               calendar.push(menu);
             }
           }
-          console.log('Calendar', calendar);
           // assuming that calendar is never bigger than 7. I am doing a limiter here;
           set({ numberOfDays: calendar.length, calendar });
         } catch (err) {
