@@ -1,28 +1,21 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@mui/material';
 
 import Navigation from '@/components/Navigation';
 
-import { Dish, DishCategory, DishIcon, Menu } from '#/index';
+import { Dish, DishCategory, DishIcon } from '#/index';
 import { useAppStore } from '@/store/appStore';
 import MenuDayCard from '@/components/MenuDayCard';
 import DishSelectionDialog from '@/components/DishSelectionDialog';
 
 const MenuView = () => {
-  const { getDishSelectionPool, menus, getCalendar, addDishToDay, removeDishFromDay, addDayToCalendar } =
+  const { getDishSelectionPool, calendar, addDishToDay, removeDishFromDay, addDayToCalendar } =
     useAppStore();
 
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [calendar, setCalendar] = useState<Menu[]>([]);
-
-  useEffect(() => {
-    getCalendar().then((data) => {
-      setCalendar(data);
-    });
-  }, [menus, getCalendar]);
 
   const categoryColors = {
     soup: 'bg-orange-100 text-orange-800 border-orange-200',
@@ -70,8 +63,13 @@ const MenuView = () => {
         </div>
 
         <div className='grid gap-6 mb-2'>
-          {calendar.map((dayMenu) => (
-            <MenuDayCard
+          {calendar.map((dayMenu) => {
+            // when the data gets stored on the local storage
+            // it cannot automatically change a string date to date
+            if (typeof dayMenu.date === 'string') {
+              dayMenu.date = new Date(dayMenu.date);
+            }
+            return <MenuDayCard
               key={format(dayMenu.date, 'EEEE')}
               dayMenu={dayMenu}
               categoryColors={categoryColors}
@@ -79,7 +77,8 @@ const MenuView = () => {
               onAddDish={handleAddDish}
               onRemoveDish={handleRemoveDish}
             />
-          ))}
+          }
+          )}
         </div>
         <Button variant='outlined' className='w-full' onClick={addDayToCalendar}> Add another day</Button>
       </main>

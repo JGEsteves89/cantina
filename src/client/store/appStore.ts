@@ -82,8 +82,9 @@ interface AppStore {
   startDate: Date,
   menus: Menu[],
   dishes: Dish[];
+  calendar: Menu[];
   initialize: () => void;
-  getCalendar: () => Promise<Menu[]>;
+  refreshCalendar: () => Promise<void>;
   addDayToCalendar: () => void;
   addDishToDay: (date: Date, dish: Dish) => void;
   removeDishFromDay: (date: Date, category: DishCategory) => void;
@@ -114,10 +115,15 @@ export const useAppStore = create(
           set({
             menus,
             dishes,
+            numberOfDays: 3,
             isLoading: false,
             isError: false,
             errorMessage: null,
           });
+
+          // Refresh calendar after initialization
+          console.log('Menus', menus);
+          await get().refreshCalendar();
         } catch (err) {
           const message = err instanceof Error ? err.message : 'Failed to initialize';
           console.error('Failed to initialize menu store:', err);
@@ -125,34 +131,52 @@ export const useAppStore = create(
         }
       },
 
-      getCalendar: async () => {
-        if (get().isLoading || get().isError) return [];
+      refreshCalendar: async () => {
+        if (get().isLoading || get().isError) return;
         try {
           const calendar: Menu[] = [];
           const startDate = new Date(get().startDate);
-          for (let i = 0; i < get().numberOfDays; i++) {
+
+          for (let i = 0; i < 7; i++) {
             const date = addDays(startDate, i);
             const menu = get().menus.find((d) => isSameDay(new Date(d.date), date));
-            if (menu) {
-              calendar.push(menu);
+            const hasDishes = menu && Object.values(DishCategory).find((c) => !!menu[c]);
+
+            // if there is no menu and but is in the number of days in view
+            if (!menu) {
+              if (i < get().numberOfDays) {
+                const id = Menu.generateId(date);
+                const newMenu = await api.menus.update(new Menu(id, date, {}), get().dishes);
+                calendar.push(newMenu);
+              } else {
+                // I think it should stop immidiately
+              }
+            } else if (!hasDishes) {
+              // if there is a menu but no dishes
+              if (i < get().numberOfDays) {
+                calendar.push(menu);
+              } else {
+                break;
+              }
             } else {
-              const id = Menu.generateId(date);
-              const newMenu = await api.menus.update(new Menu(id, date, {}), get().dishes);
-              calendar.push(newMenu);
+              // if it has dishes just add to the calendar;
+              calendar.push(menu);
             }
           }
-          return calendar;
+          console.log('Calendar', calendar);
+          // assuming that calendar is never bigger than 7. I am doing a limiter here;
+          set({ numberOfDays: calendar.length, calendar });
         } catch (err) {
           const message = err instanceof Error ? err.message : 'Failed to load calendar';
-          console.error('Failed to get calendar:', err);
+          console.error('Failed to refresh calendar:', err);
           set({ isError: true, errorMessage: message });
-          return [];
         }
       },
 
       addDayToCalendar: async () => {
         if (get().isLoading || get().isError) return;
         set({ numberOfDays: get().numberOfDays + 1 });
+        await get().refreshCalendar();
       },
 
       // --- WEEK MENU ACTIONS ---
@@ -168,6 +192,7 @@ export const useAppStore = create(
                   isSameDay(m.date, date) ? updatedMenu : m
                 )
               }));
+              get().refreshCalendar();
             })
             .catch((err) => {
               const message = err instanceof Error ? err.message : 'Failed to add dish';
@@ -189,6 +214,7 @@ export const useAppStore = create(
                   isSameDay(m.date, date) ? updatedMenu : m
                 )
               }));
+              get().refreshCalendar();
             })
             .catch((err) => {
               const message = err instanceof Error ? err.message : 'Failed to remove dish';
