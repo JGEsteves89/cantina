@@ -15,11 +15,11 @@
 - [x] Refine top buttons UI
   - [x] Reduce size of buttons for better layout
   - [x] Adjust padding/margin to maintain usability
-  - [ ] Ensure accessibility and touch targets remain appropriate
-- [ ] Enhance dish category presentation
-  - [ ] Make category sections larger visually
-  - [ ] Add a prominent icon for each category
-  - [ ] Position a badge at the bottom center of each icon
+  - [x] Ensure accessibility and touch targets remain appropriate
+- [x] Enhance dish category presentation
+  - [x] Make category sections larger visually
+  - [x] Add a prominent icon for each category
+  - [x] Position a badge at the bottom center of each icon
 - [ ] Add “Create Dish” button in all categories
   - [ ] Display button consistently for each category
   - [ ] Ensure button opens the create dish dialog pre-selecting the correct category
