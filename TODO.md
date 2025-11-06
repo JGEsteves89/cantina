@@ -36,14 +36,14 @@
   - [x] Ensure all fields validate correctly
   - [x] Correct any layout issues
   - [x] Test creation of all dish types and category assignment
-- [ ] Update footer with social handles
-  - [ ] Add icons/links for all your social accounts
-  - [ ] Ensure responsive layout
-  - [ ] Test link functionality on desktop and mobile
-- [ ] Update buttons and form fonts
-  - [ ] Choose a consistent font for all buttons and form fields
-  - [ ] Adjust font sizes for readability and design consistency
-  - [ ] Verify cross-browser appearance
+- [x] Update footer with social handles
+  - [x] Add icons/links for all your social accounts
+  - [x] Ensure responsive layout
+  - [x] Test link functionality on desktop and mobile
+- [x] Update buttons and form fonts
+  - [x] Choose a consistent font for all buttons and form fields
+  - [x] Adjust font sizes for readability and design consistency
+  - [x] Verify cross-browser appearance
 - [ ] Update readme
 - [ ] Expose the app to the world
 - [ ] Show message/page when in error
