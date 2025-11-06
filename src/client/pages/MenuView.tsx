@@ -1,6 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
+import { Button } from '@mui/material';
 
 import Navigation from '@/components/Navigation';
 
@@ -10,7 +11,7 @@ import MenuDayCard from '@/components/MenuDayCard';
 import DishSelectionDialog from '@/components/DishSelectionDialog';
 
 const MenuView = () => {
-  const { getDishSelectionPool, menus, getCalendar, addDishToDay, removeDishFromDay } =
+  const { getDishSelectionPool, menus, getCalendar, addDishToDay, removeDishFromDay, addDayToCalendar } =
     useAppStore();
 
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
@@ -68,7 +69,7 @@ const MenuView = () => {
           </p>
         </div>
 
-        <div className='grid gap-6'>
+        <div className='grid gap-6 mb-2'>
           {calendar.map((dayMenu) => (
             <MenuDayCard
               key={format(dayMenu.date, 'EEEE')}
@@ -80,6 +81,7 @@ const MenuView = () => {
             />
           ))}
         </div>
+        <Button variant='outlined' className='w-full' onClick={addDayToCalendar}> Add another day</Button>
       </main>
       <DishSelectionDialog
         open={!!selectedDay}

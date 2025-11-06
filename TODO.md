@@ -20,14 +20,15 @@
   - [x] Make category sections larger visually
   - [x] Add a prominent icon for each category
   - [x] Position a badge at the bottom center of each icon
-- [ ] Add “Create Dish” button in all categories
-  - [ ] Display button consistently for each category
-  - [ ] Ensure button opens the create dish dialog pre-selecting the correct category
-  - [ ] Test button functionality for all dish types
+- [x] Add “Create Dish” button in all categories
+  - [x] Display button consistently for each category
+  - [x] Ensure button opens the create dish dialog pre-selecting the correct category
+  - [x] Test button functionality for all dish types
 - [ ] Improve dishes view
   - [ ] Add “Add” button for each dish group
   - [ ] Pre-select category in the dialog when adding from a group
   - [ ] Validate that new dishes appear in the correct category after creation
+  - [ ] Make sure that when restarted, it shows all the menus until 1 week that have the menu set
 - [ ] Enable adding more days to the schedule
   - [ ] Add an option to extend the visible schedule beyond the current 7 days
   - [ ] When loading, highlight days that already have menu selections
@@ -45,3 +46,5 @@
   - [ ] Adjust font sizes for readability and design consistency
   - [ ] Verify cross-browser appearance
 - [ ] Update readme
+- [ ] Expose the app to the world
+- [ ] Show message/page when in error

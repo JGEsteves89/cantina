@@ -10,7 +10,7 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Navigation from '@/components/Navigation';
 import { Badge } from '@mui/material';
 
-import { useToast } from '@/components/ToastProvider'; // Your custom hook
+import { useToast } from '@/components/ToastProvider';
 import { Dish, DishCategory, DishIcon } from '#/index';
 import { useAppStore } from '@/store/appStore';
 
