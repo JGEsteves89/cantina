@@ -9,12 +9,15 @@ export class DB<T> {
   constructor(path: string, defaultValue: T) {
     this.path = path;
     this.defaultValue = defaultValue;
+    console.log(`DB: Created instance for path ${path}`);
   }
 
   the() {
     if (this.instance === null) {
+      const url = `${process.env.MY_JSON_SERVER_URL}/${this.path}`;
+      console.log(`DB: Connecting to ${url}`);
       this.instance = MyJSON.connect(
-        `${process.env.MY_JSON_SERVER_URL}/${this.path}`,
+        url,
         process.env.MY_JSON_SERVER_API || '',
       );
     }
@@ -23,9 +26,13 @@ export class DB<T> {
 
   async read(): Promise<T> {
     try {
-      return (await this.the().read()) as T;
+      const data = await this.the().read() as T;
+      console.log(`DB: Successfully read from ${this.path}`);
+      return data;
     } catch (error: any) {
+      console.error(`DB: Error reading from ${this.path}:`, error.message);
       if (error.message === 'Request failed with status 404') {
+        console.log(`DB: Path ${this.path} not found, writing default value`);
         await this.write(this.defaultValue);
         return this.read();
       }
@@ -34,6 +41,7 @@ export class DB<T> {
   }
 
   write(data: T) {
+    console.log(`DB: Writing to ${this.path}`);
     return this.the().write(data as GenericType);
   }
 }

@@ -9,7 +9,11 @@ import { fileURLToPath } from "url";
 import apiRouter from "./src/server/routes/api.js";
 
 import dotenv from 'dotenv';
+import morgan from 'morgan';
+import consoleStamp from 'console-stamp';
 dotenv.config();
+
+consoleStamp(console, { format: ':date(yyyy-mm-dd HH:MM:ss.l)' });
 
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 
@@ -37,6 +41,8 @@ const getStyleSheets = async () => {
 async function createServer(isProd = process.env.NODE_ENV === "production") {
   const app = express();
 
+  // Add morgan logger middleware for HTTP request logging
+  app.use(morgan('combined'));
 
   // Create Vite server in middleware mode and configure the app type as
   // 'custom', disabling Vite's own HTML serving logic so parent server
@@ -110,7 +116,7 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
       next(e);
     }
   });
-  const port = process.env.PORT || 7456;
+  const port = process.env.PORT || 3000;
   app.listen(Number(port), "0.0.0.0", () => {
     console.log(`App is listening on http://localhost:${port}`);
   });
