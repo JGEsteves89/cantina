@@ -1,5 +1,5 @@
 # Cantina 🍲
-
+![Demo](https://raw.githubusercontent.com/JGEsteves89/videos/refs/heads/main/Finalpromo-ezgif.com-video-to-gif-converter.gif)
 **Cantina** is a modern web application for planning and managing your household's weekly menus. Plan meals for upcoming days, manage your dish library, and keep everyone on the same page — no login required.
 
 ---
